@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+<mapper namespace="com.dianba.userdomain.order.mapper.CommonRechargeMapper">
+    <resultMap type="com.dianba.userdomain.order.entity.Recharge" id="rechargeMap">
+		<result property="id" column="id"/>
+		<result property="merchantId" column="merchant_id"/>
+		<result property="outTradeNo" column="out_trade_no"/>
+		<result property="payType" column="pay_type"/>
+		<result property="transactionId" column="transaction_id"/>
+		<result property="totalFee" column="total_fee"/>
+		<result property="opUserId" column="op_user_id"/>
+		<result property="userId" column="user_id"/>
+		<result property="status" column="status"/>
+		<result property="createTime" column="create_time"/>
+		<result property="notifyTime" column="notify_time"/>
+
+    </resultMap>
+    
+    <sql id="Example_Where_Clause" >
+	  <trim prefix="where" prefixOverrides="and|or" >
+	    			<if test="id != null  and id !=''" >
+			and id = #{id}
+			</if>
+			<if test="merchantId != null  and merchantId !=''" >
+			and merchant_id = #{merchantId}
+			</if>
+			<if test="outTradeNo != null  and outTradeNo !=''" >
+			and out_trade_no = #{outTradeNo}
+			</if>
+			<if test="payType != null  and payType !=''" >
+			and pay_type = #{payType}
+			</if>
+			<if test="transactionId != null  and transactionId !=''" >
+			and transaction_id = #{transactionId}
+			</if>
+			<if test="totalFee != null  and totalFee !=''" >
+			and total_fee = #{totalFee}
+			</if>
+			<if test="opUserId != null  and opUserId !=''" >
+			and op_user_id = #{opUserId}
+			</if>
+			<if test="userId != null  and userId !=''" >
+			and user_id = #{userId}
+			</if>
+			<if test="status != null  and status !=''" >
+			and status = #{status}
+			</if>
+			<if test="createTime != null  and createTime !=''" >
+			and create_time = #{createTime}
+			</if>
+			<if test="notifyTime != null  and notifyTime !=''" >
+			and notify_time = #{notifyTime}
+			</if>
+
+	  </trim>
+  	</sql>
+	<sql id="Base_Column_List" >
+	  id,merchant_id,out_trade_no,pay_type,transaction_id,total_fee,op_user_id,user_id,status,create_time,notify_time
+    </sql>
+    
+    <select id="getRechargeList" resultMap="rechargeMap">
+    	SELECT 
+			<include refid="Base_Column_List" /> 
+			FROM 0085_recharge
+    </select>
+    
+    <select id="getRechargePageList" resultMap="rechargeMap" parameterType="com.dianba.userdomain.order.entity.Recharge">
+    	SELECT 
+			<include refid="Base_Column_List" /> 
+			FROM 0085_recharge
+			<include refid="Example_Where_Clause" />
+    </select>
+    
+    <select id="getRechargeByPrimaryKey" parameterType="Long" resultMap="rechargeMap">
+    	SELECT 
+			<include refid="Base_Column_List" /> 
+			FROM 0085_recharge WHERE id =#{id}
+    </select>
+    
+    <insert id="createRecharge" parameterType="com.dianba.userdomain.order.entity.Recharge">
+        <selectKey resultType="Long"  order="AFTER" keyProperty="id" >
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+		INSERT INTO 0085_recharge(
+			id,
+			merchant_id,
+			out_trade_no,
+			pay_type,
+			transaction_id,
+			total_fee,
+			op_user_id,
+			user_id,
+			status,
+			create_time,
+			notify_time
+		)VALUES(
+			#{id},
+			#{merchantId},
+			#{outTradeNo},
+			#{payType},
+			#{transactionId},
+			#{totalFee},
+			#{opUserId},
+			#{userId},
+			#{status},
+			now(),
+			#{notifyTime}
+		)
+    </insert>
+    
+    
+     <insert id="createNewRecharge" parameterType="com.dianba.userdomain.order.entity.Recharge">
+        <selectKey resultType="Long"  order="AFTER" keyProperty="id" >
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+		INSERT INTO 0085_recharge(
+			out_trade_no,
+			pay_type,
+			total_fee,
+			user_id,
+			status,
+			create_time,
+			merchant_id
+		)VALUES(
+			#{outTradeNo},
+			#{payType},
+			#{totalFee},
+			#{userId},
+			#{status},
+			unix_timestamp(),
+			#{merchantId}
+		)
+    </insert>
+    
+    
+    <update id="updateRecharge" parameterType="com.dianba.userdomain.order.entity.Recharge">
+		UPDATE 0085_recharge SET
+			out_trade_no = #{outTradeNo},
+			pay_type = #{payType},
+			transaction_id = #{transactionId},
+			total_fee = #{totalFee},
+			op_user_id = #{opUserId},
+			user_id = #{userId},
+			status = #{status},
+			notify_time = #{notifyTime}
+		WHERE id = #{id}
+
+    </update>
+    
+    <update id="updateRechargeSelective" parameterType="com.dianba.userdomain.order.entity.Recharge">
+		UPDATE 0085_recharge
+		<set>
+			<if test="outTradeNo != null" >
+			out_trade_no = #{outTradeNo},
+			</if>
+			<if test="merchantId != null" >
+			merchant_id = #{merchantId},
+			</if>
+			<if test="payType != null" >
+			pay_type = #{payType},
+			</if>
+			<if test="transactionId != null" >
+			transaction_id = #{transactionId},
+			</if>
+			<if test="totalFee != null" >
+			total_fee = #{totalFee},
+			</if>
+			<if test="opUserId != null" >
+			op_user_id = #{opUserId},
+			</if>
+			<if test="userId != null" >
+			user_id = #{userId},
+			</if>
+			<if test="status != null" >
+			status = #{status},
+			</if>
+			<if test="notifyTime != null" >
+			notify_time = #{notifyTime}
+			</if>
+		</set>
+		WHERE id = #{id}
+
+    </update>
+    
+    <delete id="deleteRecharge" parameterType="Long">
+    	DELETE FROM  0085_recharge WHERE id =#{id}
+    </delete>
+</mapper>

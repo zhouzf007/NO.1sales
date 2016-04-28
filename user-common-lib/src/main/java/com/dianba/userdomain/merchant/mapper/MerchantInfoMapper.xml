@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+<mapper namespace="com.dianba.userdomain.merchant.mapper.CommonMerchantInfoMapper">
+    <resultMap type="com.dianba.userdomain.merchant.entity.MerchantInfo" id="merchantInfoMap">
+		<result property="id" column="id"/>
+		<result property="courierMinDeductMoney" column="courier_min_deduct_money"/>
+		<result property="merchantDeductType" column="merchant_deduct_type"/>
+		<result property="deductPercent" column="deduct_percent"/>
+		<result property="merchantId" column="merchant_id"/>
+		<result property="isTakeout" column="is_takeout"/>
+		<result property="isHallFood" column="is_hall_food"/>
+		<result property="supportSaleType" column="support_sale_type"/>
+		<result property="costLunchBox" column="cost_lunch_box"/>
+		<result property="preferentialInformation" column="preferential_information"/>
+		<result property="merchantSource" column="merchant_source"/>
+		<result property="deliveryScope" column="delivery_scope"/>
+		<result property="deliveryScopeTime" column="delivery_scope_time"/>
+		<result property="scanDiscount" column="scan_discount"/>
+		<result property="isScanDiscount" column="is_scan_discount"/>
+		<result property="scanDiscountLimit" column="scan_discount_limit"/>
+		<result property="isDineInDiscount" column="is_dine_in_discount"/>
+			
+    </resultMap>
+    
+    <sql id="Example_Where_Clause" >
+	  <trim prefix="where" prefixOverrides="and|or" >
+	    			<if test="id != null  and id !=''" >
+			and id = #{id}
+			</if>
+			<if test="courierMinDeductMoney != null  and courierMinDeductMoney !=''" >
+			and courier_min_deduct_money = #{courierMinDeductMoney}
+			</if>
+			<if test="merchantDeductType != null  and merchantDeductType !=''" >
+			and merchant_deduct_type = #{merchantDeductType}
+			</if>
+			<if test="deductPercent != null  and deductPercent !=''" >
+			and deduct_percent = #{deductPercent}
+			</if>
+			<if test="merchantId != null  and merchantId !=''" >
+			and merchant_id = #{merchantId}
+			</if>
+			<if test="isTakeout != null  and isTakeout !=''" >
+			and is_takeout = #{isTakeout}
+			</if>
+			<if test="isHallFood != null  and isHallFood !=''" >
+			and is_hall_food = #{isHallFood}
+			</if>
+			<if test="supportSaleType != null  and supportSaleType !=''" >
+			and support_sale_type = #{supportSaleType}
+			</if>
+			<if test="costLunchBox != null  and costLunchBox !=''" >
+			and cost_lunch_box = #{costLunchBox}
+			</if>
+			<if test="preferentialInformation != null  and preferentialInformation !=''" >
+			and preferential_information = #{preferentialInformation}
+			</if>
+			<if test="merchantSource != null  and merchantSource !=''" >
+			and merchant_source = #{merchantSource}
+			</if>
+			<if test="deliveryScope != null  and deliveryScope !=''" >
+			and delivery_scope = #{deliveryScope}
+			</if>
+			<if test="deliveryScopeTime != null  and deliveryScopeTime !=''" >
+			and delivery_scope_time = #{deliveryScopeTime}
+			</if>
+			<if test="scanDiscount != null  and scanDiscount !=''" >
+			and scan_discount = #{scanDiscount}
+			</if>
+			<if test="isScanDiscount != null  and isScanDiscount !=''" >
+			and is_scan_discount = #{isScanDiscount}
+			</if>
+			<if test="scanDiscountLimit != null  and scanDiscountLimit !=''" >
+			and scan_discount_limit = #{scanDiscountLimit}
+			</if>
+
+	  </trim>
+  	</sql>
+	<sql id="Base_Column_List" >
+	  id,courier_min_deduct_money,merchant_deduct_type,deduct_percent,merchant_id,is_takeout,is_hall_food,support_sale_type,cost_lunch_box,preferential_information,merchant_source,delivery_scope,delivery_scope_time,scan_discount,is_scan_discount,scan_discount_limit,is_dine_in_discount
+    </sql>
+    
+    <select id="getMerchantInfoList" resultMap="merchantInfoMap">
+    	SELECT 
+			<include refid="Base_Column_List" /> 
+			FROM 0085_merchant_info
+    </select>
+    
+    <select id="getMerchantInfoPageList" resultMap="merchantInfoMap" parameterType="com.dianba.userdomain.merchant.entity.MerchantInfo">
+    	SELECT 
+			<include refid="Base_Column_List" /> 
+			FROM 0085_merchant_info
+			<include refid="Example_Where_Clause" />
+    </select>
+    
+    <select id="getMerchantInfoByPrimaryKey" parameterType="Integer" resultMap="merchantInfoMap">
+    	SELECT 
+			<include refid="Base_Column_List" /> 
+			FROM 0085_merchant_info WHERE id =#{id}
+    </select>
+    
+      <select id="getDineInDiscount" parameterType="Integer" resultType="java.lang.Integer"> 
+		SELECT
+	CASE
+WHEN COUNT(tmp.discount) = 0 THEN
+	100
+ELSE
+	tmp.discount
+END discount
+FROM
+	(
+		SELECT
+			dine_in_discount AS discount
+		FROM
+			0085_merchant_info
+		WHERE
+			merchant_id = #{merchantId}
+		AND is_dine_in_discount = 1 AND (merchant_source = 0 OR merchant_source = 1 OR merchant_source = 3)
+	) AS tmp
+    </select>
+    
+    <insert id="createMerchantInfo" parameterType="com.dianba.userdomain.merchant.entity.MerchantInfo">
+        <selectKey resultType="Integer"  order="AFTER" keyProperty="id" >
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+		INSERT INTO 0085_merchant_info(
+			id,
+			courier_min_deduct_money,
+			merchant_deduct_type,
+			deduct_percent,
+			merchant_id,
+			is_takeout,
+			is_hall_food,
+			support_sale_type,
+			cost_lunch_box,
+			preferential_information,
+			merchant_source,
+			delivery_scope,
+			delivery_scope_time,
+			scan_discount,
+			is_scan_discount,
+			scan_discount_limit
+		)VALUES(
+			#{id},
+			#{courierMinDeductMoney},
+			#{merchantDeductType},
+			#{deductPercent},
+			#{merchantId},
+			#{isTakeout},
+			#{isHallFood},
+			#{supportSaleType},
+			#{costLunchBox},
+			#{preferentialInformation},
+			#{merchantSource},
+			#{deliveryScope},
+			#{deliveryScopeTime},
+			#{scanDiscount},
+			#{isScanDiscount},
+			#{scanDiscountLimit}
+		)
+    </insert>
+    
+    <update id="updateMerchantInfo" parameterType="com.dianba.userdomain.merchant.entity.MerchantInfo">
+		UPDATE 0085_merchant_info SET
+			courier_min_deduct_money = #{courierMinDeductMoney},
+			merchant_deduct_type = #{merchantDeductType},
+			deduct_percent = #{deductPercent},
+			merchant_id = #{merchantId},
+			is_takeout = #{isTakeout},
+			is_hall_food = #{isHallFood},
+			support_sale_type = #{supportSaleType},
+			cost_lunch_box = #{costLunchBox},
+			preferential_information = #{preferentialInformation},
+			merchant_source = #{merchantSource},
+			delivery_scope = #{deliveryScope},
+			delivery_scope_time = #{deliveryScopeTime},
+			scan_discount = #{scanDiscount},
+			is_scan_discount = #{isScanDiscount},
+			scan_discount_limit = #{scanDiscountLimit}
+		WHERE id = #{id}
+
+    </update>
+    
+    <update id="updateMerchantInfoSelective" parameterType="com.dianba.userdomain.merchant.entity.MerchantInfo">
+		UPDATE 0085_merchant_info
+		<set>
+			<if test="courierMinDeductMoney != null" >
+			courier_min_deduct_money = #{courierMinDeductMoney},
+			</if>
+			<if test="merchantDeductType != null" >
+			merchant_deduct_type = #{merchantDeductType},
+			</if>
+			<if test="deductPercent != null" >
+			deduct_percent = #{deductPercent},
+			</if>
+			<if test="merchantId != null" >
+			merchant_id = #{merchantId},
+			</if>
+			<if test="isTakeout != null" >
+			is_takeout = #{isTakeout},
+			</if>
+			<if test="isHallFood != null" >
+			is_hall_food = #{isHallFood},
+			</if>
+			<if test="supportSaleType != null" >
+			support_sale_type = #{supportSaleType},
+			</if>
+			<if test="costLunchBox != null" >
+			cost_lunch_box = #{costLunchBox},
+			</if>
+			<if test="preferentialInformation != null" >
+			preferential_information = #{preferentialInformation},
+			</if>
+			<if test="merchantSource != null" >
+			merchant_source = #{merchantSource},
+			</if>
+			<if test="deliveryScope != null" >
+			delivery_scope = #{deliveryScope},
+			</if>
+			<if test="deliveryScopeTime != null" >
+			delivery_scope_time = #{deliveryScopeTime},
+			</if>
+			<if test="scanDiscount != null" >
+			scan_discount = #{scanDiscount},
+			</if>
+			<if test="isScanDiscount != null" >
+			is_scan_discount = #{isScanDiscount}
+			</if>
+			<if test="scanDiscountLimit != null" >
+			and scan_discount_limit = #{scanDiscountLimit}
+			</if>
+		</set>
+		WHERE id = #{id}
+
+    </update>
+    
+    <delete id="deleteMerchantInfo" parameterType="Integer">
+    	DELETE FROM  0085_merchant_info WHERE id =#{id}
+    </delete>
+    
+        <select id="getMerchantInfoByMerchantId" parameterType="Integer" resultMap="merchantInfoMap">
+    	SELECT 
+			<include refid="Base_Column_List" /> 
+			FROM 0085_merchant_info WHERE merchant_id =#{merchantId}
+    </select>
+    
+    <select id="getCostLunchBox" parameterType="Integer" resultType="java.lang.Double"> 
+		SELECT cost_lunch_box FROM 0085_merchant_info where merchant_id=#{id}
+    </select>
+    
+    <select id="MerchantInfoList" parameterType="Integer" resultMap="merchantInfoMap"> 
+		SELECT 
+		 <include refid="Base_Column_List" />
+		  FROM 0085_merchant_info WHERE merchant_id=#{id}
+    </select>
+    
+    <select id="getMerchantSource" parameterType="Integer" resultType="java.lang.Integer"> 
+		SELECT merchant_source FROM 0085_merchant_info where merchant_id=#{id}
+    </select>
+    
+    <select id="findRechargeMerchantId" resultType="Integer">
+        select merchant_id from 0085_merchant_info where merchant_source = 5 limit 1
+    </select>
+</mapper>

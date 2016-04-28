@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+<mapper namespace="com.dianba.userdomain.sysdictionary.mapper.CommonCusttypeRuleMapper">
+    <resultMap type="com.dianba.userdomain.sysdictionary.entity.CusttypeRule" id="custtypeRuleMap">
+		<result property="id" column="id"/>
+		<result property="typeName" column="type_name"/>
+		<result property="typeDesc" column="type_desc"/>
+		<result property="amount" column="amount"/>
+		<result property="invalid" column="invalid"/>
+
+    </resultMap>
+    
+    <sql id="Example_Where_Clause" >
+	  <trim prefix="where" prefixOverrides="and|or" >
+	    			<if test="id != null  and id !=''" >
+			and id = #{id}
+			</if>
+			<if test="typeName != null  and typeName !=''" >
+			and type_name = #{typeName}
+			</if>
+			<if test="typeDesc != null  and typeDesc !=''" >
+			and type_desc = #{typeDesc}
+			</if>
+			<if test="amount != null  and amount !=''" >
+			and amount = #{amount}
+			</if>
+			<if test="invalid != null  and invalid !=''" >
+			and invalid = #{invalid}
+			</if>
+
+	  </trim>
+  	</sql>
+	<sql id="Base_Column_List" >
+	  id,type_name,type_desc,amount,invalid
+    </sql>
+    
+    <select id="getCusttypeRuleList" resultMap="custtypeRuleMap">
+    	SELECT 
+			<include refid="Base_Column_List" /> 
+			FROM 0085_custtype_rule
+    </select>
+    
+    <select id="getCusttypeRulePageList" resultMap="custtypeRuleMap" parameterType="com.dianba.userdomain.sysdictionary.entity.CusttypeRule">
+    	SELECT 
+			<include refid="Base_Column_List" /> 
+			FROM 0085_custtype_rule
+			<include refid="Example_Where_Clause" />
+    </select>
+    
+    <select id="getCusttypeRuleByPrimaryKey" parameterType="Integer" resultMap="custtypeRuleMap">
+    	SELECT 
+			<include refid="Base_Column_List" /> 
+			FROM 0085_custtype_rule WHERE id =#{id}
+    </select>
+    
+    <insert id="createCusttypeRule" parameterType="com.dianba.userdomain.sysdictionary.entity.CusttypeRule">
+        <selectKey resultType="Integer"  order="AFTER" keyProperty="id" >
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+		INSERT INTO 0085_custtype_rule(
+			id,
+			type_name,
+			type_desc,
+			amount,
+			invalid
+		)VALUES(
+			#{id},
+			#{typeName},
+			#{typeDesc},
+			#{amount},
+			#{invalid}
+		)
+    </insert>
+    
+    <update id="updateCusttypeRule" parameterType="com.dianba.userdomain.sysdictionary.entity.CusttypeRule">
+		UPDATE 0085_custtype_rule SET
+			type_name = #{typeName},
+			type_desc = #{typeDesc},
+			amount = #{amount},
+			invalid = #{invalid}
+		WHERE id = #{id}
+
+    </update>
+    
+    <update id="updateCusttypeRuleSelective" parameterType="com.dianba.userdomain.sysdictionary.entity.CusttypeRule">
+		UPDATE 0085_custtype_rule
+		<set>
+			<if test="typeName != null" >
+			type_name = #{typeName},
+			</if>
+			<if test="typeDesc != null" >
+			type_desc = #{typeDesc},
+			</if>
+			<if test="amount != null" >
+			amount = #{amount},
+			</if>
+			<if test="invalid != null" >
+			invalid = #{invalid}
+			</if>
+		</set>
+		WHERE id = #{id}
+
+    </update>
+    
+    <delete id="deleteCusttypeRule" parameterType="Integer">
+    	DELETE FROM  0085_custtype_rule WHERE id =#{id}
+    </delete>
+    
+    <select id="getAllCusttypeRule" resultMap="custtypeRuleMap" parameterType="com.dianba.userdomain.sysdictionary.entity.CusttypeRule">
+    	SELECT 
+			<include refid="Base_Column_List" /> 
+			FROM 0085_custtype_rule
+    </select>
+</mapper>

@@ -1,0 +1,1297 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+<mapper namespace="com.dianba.userdomain.order.mapper.CommonOrderMapper">
+<!-- <resultMap id="BaseMerchantSeatingResultMap" type="com.dianba.userdomain.order.entity.MerchantSeating" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="merchant_id" property="merchantId" jdbcType="INTEGER" />
+    <result column="seat_name" property="seatName" jdbcType="VARCHAR" />
+    <result column="addtime" property="addtime" jdbcType="TIMESTAMP" />
+    <result column="is_delete" property="isDelete" jdbcType="CHAR" />
+  </resultMap> -->
+  
+<!--   <resultMap id="BaseEatinOrderResultMap" type="com.dianba.userdomain.order.entity.EatinOrder">
+		<id column="id" jdbcType="BIGINT" property="id" />
+		<result column="merchant_id" jdbcType="INTEGER" property="merchantId" />
+		<result column="seat_id" jdbcType="INTEGER" property="seatId" />
+		<result column="user_id" jdbcType="BIGINT" property="userId" />
+		<result column="order_id" jdbcType="BIGINT" property="orderId" />
+		<result column="created_time" jdbcType="TIMESTAMP" property="createdTime" />
+		<result column="pnumber" jdbcType="INTEGER" property="pnumber" />
+		<result column="seat_pmoney" jdbcType="INTEGER" property="seatPmoney" />
+		<result column="status" jdbcType="CHAR" property="status" />
+	</resultMap> -->
+	
+    <resultMap type="com.dianba.userdomain.order.entity.Order" id="orderMap">
+		<result property="id" column="id"/>
+		<result property="payId" column="pay_id"/>
+		<result property="payType" column="pay_type"/>
+		<result property="userId" column="user_id"/>
+		<result property="courierId" column="courier_id"/>
+		<result property="cityId" column="city_id"/>
+		<result property="cardId" column="card_id"/>
+		<result property="status" column="status"/>
+		<result property="state" column="state"/>
+		<result property="rstate" column="rstate"/>
+		<result property="rereason" column="rereason"/>
+		<result property="retime" column="retime"/>
+		<result property="realname" column="realname"/>
+		<result property="mobile" column="mobile"/>
+		<result property="address" column="address"/>
+		<result property="onlineMoney" column="online_money"/>
+		<result property="origin" column="origin"/>
+		<result property="credit" column="credit"/>
+		<result property="card" column="card"/>
+		<result property="remark" column="remark"/>
+		<result property="createTime" column="create_time"/>
+		<result property="payTime" column="pay_time"/>
+		<result property="commentContent" column="comment_content"/>
+		<result property="commentDisplay" column="comment_display"/>
+		<result property="commentTaste" column="comment_taste"/>
+		<result property="commentSpeed" column="comment_speed"/>
+		<result property="commentService" column="comment_service"/>
+		<result property="commentCourier" column="comment_courier"/>
+		<result property="commentTime" column="comment_time"/>
+		<result property="merchantId" column="merchant_id"/>
+		<result property="scoreMoney" column="score_money"/>
+		<result property="score" column="score"/>
+		<result property="orderType" column="order_type"/>
+		<result property="accessTime" column="access_time"/>
+		<result property="deliveryTime" column="delivery_time"/>
+		<result property="completeTime" column="complete_time"/>
+		<result property="urgentTime" column="urgent_time"/>
+		<result property="title" column="title"/>
+		<result property="ifcourier" column="ifCourier"/>
+		<result property="deliveryDoneTime" column="delivery_done_time"/>
+		<result property="payState" column="pay_state"/>
+		<result property="saleType" column="sale_type"/>
+		<result property="orderNum" column="order_num"/>
+		<result property="outTraceId" column="out_trace_id"/>
+		<result property="timeRemark" column="time_remark"/>
+		<result property="cookDoneTime" column="cook_done_time"/>
+		<result property="cookDoneCode" column="cook_done_code"/>
+		<result property="startTime" column="start_time"/>
+		<result property="commentCourierContent" column="comment_courier_content"/>
+		<result property="startSendTime" column="start_send_time"/>
+		<result property="endSendTime" column="end_send_time"/>
+		<result property="userAddressId" column="user_address_id"/>
+		<result property="invoice" column="invoice"/>
+		<result property="fromType" column="from_type"/>
+		<result property="deliveryFee" column="delivery_fee"/>
+		<result property="costLunchBox" column="cost_lunch_box"/>
+		<result property="memberDiscountMoney" column="member_discount_money"/>
+		<result property="merchantMemberDiscountMoney" column="merchant_member_discount_money"/>
+		<result property="dineInDiscountMoney" column="dine_in_discount_money"/>
+    </resultMap>
+<!--     
+    <resultMap type="com.dianba.web.vo.OrderCommentScoreVo" id="orderScoreMap">
+		<result property="tasteScore" column="tasteScore"/>
+		<result property="serviceScore" column="serviceScore"/>
+    </resultMap> -->
+    
+    <resultMap type="com.dianba.userdomain.order.vo.OrderListVo" id="userOrderMap">
+		<result property="id" column="id"/>
+		<result property="payId" column="pay_id"/>
+		<result property="merchantSource" column="merchant_source"/>
+		<result property="payType" column="pay_type"/>
+		<result property="userId" column="user_id"/>
+		<result property="courierId" column="courier_id"/>
+		<result property="cityId" column="city_id"/>
+		<result property="cardId" column="card_id"/>
+		<result property="status" column="status"/>
+		<result property="state" column="state"/>
+		<result property="rstate" column="rstate"/>
+		<result property="rereason" column="rereason"/>
+		<result property="retime" column="retime"/>
+		<result property="realname" column="realname"/>
+		<result property="mobile" column="mobile"/>
+		<result property="address" column="address"/>
+		<result property="onlineMoney" column="online_money"/>
+		<result property="origin" column="origin"/>
+		<result property="credit" column="credit"/>
+		<result property="card" column="card"/>
+		<result property="remark" column="remark"/>
+		<result property="createTime" column="create_time"/>
+		<result property="payTime" column="pay_time"/>
+		<result property="commentContent" column="comment_content"/>
+		<result property="commentDisplay" column="comment_display"/>
+		<result property="commentTaste" column="comment_taste"/>
+		<result property="commentSpeed" column="comment_speed"/>
+		<result property="commentService" column="comment_service"/>
+		<result property="commentCourier" column="comment_courier"/>
+		<result property="commentTime" column="comment_time"/>
+		<result property="merchantId" column="merchant_id"/>
+		<result property="scoreMoney" column="score_money"/>
+		<result property="score" column="score"/>
+		<result property="orderType" column="order_type"/>
+		<result property="accessTime" column="access_time"/>
+		<result property="deliveryTime" column="delivery_time"/>
+		<result property="completeTime" column="complete_time"/>
+		<result property="urgentTime" column="urgent_time"/>
+		<result property="title" column="title"/>
+		<result property="ifcourier" column="ifCourier"/>
+		<result property="deliveryDoneTime" column="delivery_done_time"/>
+		<result property="payState" column="pay_state"/>
+		<result property="saleType" column="sale_type"/>
+		<result property="orderNum" column="order_num"/>
+		<result property="outTraceId" column="out_trace_id"/>
+		<result property="timeRemark" column="time_remark"/>
+		<result property="cookDoneTime" column="cook_done_time"/>
+		<result property="cookDoneCode" column="cook_done_code"/>
+		<result property="startTime" column="start_time"/>
+		<result property="commentCourierContent" column="comment_courier_content"/>
+		<result property="startSendTime" column="start_send_time"/>
+		<result property="endSendTime" column="end_send_time"/>
+		<result property="userAddressId" column="user_address_id"/>
+		<result property="invoice" column="invoice"/>
+		<result property="fromType" column="from_type"/>
+		<result property="deliveryFee" column="delivery_fee"/>
+		<result property="costLunchBox" column="cost_lunch_box"/>
+		<result property="merchantTitle" column="merchantTitle"/>
+		<result property="merchantPic" column="merchantPic"/>
+		<result property="merchantSource" column="merchantSource"/>
+		<result property="memberDiscountMoney" column="member_discount_money"/>
+		<result property="merchantMemberDiscountMoney" column="merchant_member_discount_money"/>
+		<result property="dineInDiscountMoney" column="dine_in_discount_money"/>
+    </resultMap>
+    
+    <resultMap type="com.dianba.userdomain.order.vo.OrderDetailVo" id="orderDetailVoMap">
+		<result property="id" column="id"/>
+		<result property="payId" column="pay_id"/>
+		<result property="payType" column="pay_type"/>
+		<result property="userId" column="user_id"/>
+		<result property="courierId" column="courier_id"/>
+		<result property="cityId" column="city_id"/>
+		<result property="cardId" column="card_id"/>
+		<result property="status" column="status"/>
+		<result property="state" column="state"/>
+		<result property="rstate" column="rstate"/>
+		<result property="rereason" column="rereason"/>
+		<result property="retime" column="retime"/>
+		<result property="realname" column="realname"/>
+		<result property="mobile" column="mobile"/>
+		<result property="address" column="address"/>
+		<result property="onlineMoney" column="online_money"/>
+		<result property="origin" column="origin"/>
+		<result property="credit" column="credit"/>
+		<result property="card" column="card"/>
+		<result property="remark" column="remark"/>
+		<result property="createTime" column="create_time"/>
+		<result property="payTime" column="pay_time"/>
+		<result property="commentContent" column="comment_content"/>
+		<result property="commentDisplay" column="comment_display"/>
+		<result property="commentTaste" column="comment_taste"/>
+		<result property="commentSpeed" column="comment_speed"/>
+		<result property="commentService" column="comment_service"/>
+		<result property="commentCourier" column="comment_courier"/>
+		<result property="commentTime" column="comment_time"/>
+		<result property="merchantId" column="merchant_id"/>
+		<result property="scoreMoney" column="score_money"/>
+		<result property="score" column="score"/>
+		<result property="orderType" column="order_type"/>
+		<result property="accessTime" column="access_time"/>
+		<result property="deliveryTime" column="delivery_time"/>
+		<result property="completeTime" column="complete_time"/>
+		<result property="urgentTime" column="urgent_time"/>
+		<result property="title" column="title"/>
+		<result property="ifcourier" column="ifCourier"/>
+		<result property="deliveryDoneTime" column="delivery_done_time"/>
+		<result property="payState" column="pay_state"/>
+		<result property="saleType" column="sale_type"/>
+		<result property="orderNum" column="order_num"/>
+		<result property="outTraceId" column="out_trace_id"/>
+		<result property="timeRemark" column="time_remark"/>
+		<result property="cookDoneTime" column="cook_done_time"/>
+		<result property="cookDoneCode" column="cook_done_code"/>
+		<result property="startTime" column="start_time"/>
+		<result property="commentCourierContent" column="comment_courier_content"/>
+		<result property="startSendTime" column="start_send_time"/>
+		<result property="endSendTime" column="end_send_time"/>
+		<result property="userAddressId" column="user_address_id"/>
+		<result property="invoice" column="invoice"/>
+		<result property="fromType" column="from_type"/>
+		<result property="deliveryFee" column="delivery_fee"/>
+		<result property="costLunchBox" column="cost_lunch_box"/>
+		<result property="merchantMobile" column="merchantMobile"/>
+		<result property="merchantTitle" column="merchantTitle"/>
+		<result property="courierMobile" column="courierMobile"/>
+		<result property="merchantSource" column="merchantSource"/>
+		<result property="merchantAddress" column="merchantAddress"/>
+		<result property="memberDiscountMoney" column="member_discount_money"/>
+    </resultMap>
+    
+    <resultMap type="java.util.HashMap" id="allToMap">
+		<result property="state" column="state"/>
+		<result property="c" column="c"/>
+    </resultMap>
+    
+    <resultMap type="java.util.HashMap" id="totalOriginMap">
+		<result property="total" column="total"/>
+    </resultMap>
+    
+    <resultMap type="java.util.HashMap" id="confirmOrderToMap">
+		<result property="distinct" column="distinct"/>
+		<result property="state" column="state"/>
+		<result property="c" column="c"/>
+    </resultMap>
+    
+    <resultMap type="java.util.HashMap" id="dineinOrderToMap">
+		<result property="id" column="id"/>
+		<result property="merchant_id" column="merchant_id"/>
+		<result property="remark" column="remark"/>
+		<result property="merchant_source" column="merchant_source"/>
+    </resultMap>
+    
+        <resultMap type="java.util.HashMap" id="promotionLimit">
+		<result property="quantity" column="quantity"/>
+    </resultMap>
+    
+    <sql id="Example_Where_Clause" >
+	  <trim prefix="where" prefixOverrides="and|or" >
+	    			<if test="id != null  and id !=''" >
+			and id = #{id}
+			</if>
+			<if test="payId != null  and payId !=''" >
+			and pay_id = #{payId}
+			</if>
+			<if test="payType != null  and payType !=''" >
+			and pay_type = #{payType}
+			</if>
+			<if test="userId != null  and userId !=''" >
+			and user_id = #{userId}
+			</if>
+			<if test="courierId != null  and courierId !=''" >
+			and courier_id = #{courierId}
+			</if>
+			<if test="cityId != null  and cityId !=''" >
+			and city_id = #{cityId}
+			</if>
+			<if test="cardId != null  and cardId !=''" >
+			and card_id = #{cardId}
+			</if>
+			<if test="status != null  and status !=''" >
+			and status = #{status}
+			</if>
+			<if test="state != null  and state !=''" >
+			and state = #{state}
+			</if>
+			<if test="rstate != null  and rstate !=''" >
+			and rstate = #{rstate}
+			</if>
+			<if test="rereason != null  and rereason !=''" >
+			and rereason = #{rereason}
+			</if>
+			<if test="retime != null  and retime !=''" >
+			and retime = #{retime}
+			</if>
+			<if test="realname != null  and realname !=''" >
+			and realname = #{realname}
+			</if>
+			<if test="mobile != null  and mobile !=''" >
+			and mobile = #{mobile}
+			</if>
+			<if test="address != null  and address !=''" >
+			and address = #{address}
+			</if>
+			<if test="onlineMoney != null  and onlineMoney !=''" >
+			and online_money = #{onlineMoney}
+			</if>
+			<if test="origin != null  and origin !=''" >
+			and origin = #{origin}
+			</if>
+			<if test="credit != null  and credit !=''" >
+			and credit = #{credit}
+			</if>
+			<if test="card != null  and card !=''" >
+			and card = #{card}
+			</if>
+			<if test="remark != null  and remark !=''" >
+			and remark = #{remark}
+			</if>
+			<if test="createTime != null  and createTime !=''" >
+			and create_time = #{createTime}
+			</if>
+			<if test="payTime != null  and payTime !=''" >
+			and pay_time = #{payTime}
+			</if>
+			<if test="commentContent != null  and commentContent !=''" >
+			and comment_content = #{commentContent}
+			</if>
+			<if test="commentDisplay != null  and commentDisplay !=''" >
+			and comment_display = #{commentDisplay}
+			</if>
+			<if test="commentTaste != null  and commentTaste !=''" >
+			and comment_taste = #{commentTaste}
+			</if>
+			<if test="commentSpeed != null  and commentSpeed !=''" >
+			and comment_speed = #{commentSpeed}
+			</if>
+			<if test="commentService != null  and commentService !=''" >
+			and comment_service = #{commentService}
+			</if>
+			<if test="commentCourier != null  and commentCourier !=''" >
+			and comment_courier = #{commentCourier}
+			</if>
+			<if test="commentTime != null  and commentTime !=''" >
+			and comment_time = #{commentTime}
+			</if>
+			<if test="merchantId != null  and merchantId !=''" >
+			and merchant_id = #{merchantId}
+			</if>
+			<if test="scoreMoney != null  and scoreMoney !=''" >
+			and score_money = #{scoreMoney}
+			</if>
+			<if test="score != null  and score !=''" >
+			and score = #{score}
+			</if>
+			<if test="orderType != null  and orderType !=''" >
+			and order_type = #{orderType}
+			</if>
+			<if test="accessTime != null  and accessTime !=''" >
+			and access_time = #{accessTime}
+			</if>
+			<if test="deliveryTime != null  and deliveryTime !=''" >
+			and delivery_time = #{deliveryTime}
+			</if>
+			<if test="completeTime != null  and completeTime !=''" >
+			and complete_time = #{completeTime}
+			</if>
+			<if test="urgentTime != null  and urgentTime !=''" >
+			and urgent_time = #{urgentTime}
+			</if>
+			<if test="title != null  and title !=''" >
+			and title = #{title}
+			</if>
+			<if test="ifcourier != null  and ifcourier !=''" >
+			and ifCourier = #{ifcourier}
+			</if>
+			<if test="deliveryDoneTime != null  and deliveryDoneTime !=''" >
+			and delivery_done_time = #{deliveryDoneTime}
+			</if>
+			<if test="payState != null  and payState !=''" >
+			and pay_state = #{payState}
+			</if>
+			<if test="saleType != null  and saleType !=''" >
+			and sale_type = #{saleType}
+			</if>
+			<if test="orderNum != null  and orderNum !=''" >
+			and order_num = #{orderNum}
+			</if>
+			<if test="outTraceId != null  and outTraceId !=''" >
+			and out_trace_id = #{outTraceId}
+			</if>
+			<if test="timeRemark != null  and timeRemark !=''" >
+			and time_remark = #{timeRemark}
+			</if>
+			<if test="cookDoneTime != null  and cookDoneTime !=''" >
+			and cook_done_time = #{cookDoneTime}
+			</if>
+			<if test="cookDoneCode != null  and cookDoneCode !=''" >
+			and cook_done_code = #{cookDoneCode}
+			</if>
+			<if test="startTime != null  and startTime !=''" >
+			and start_time = #{startTime}
+			</if>
+			<if test="commentCourierContent != null  and commentCourierContent !=''" >
+			and comment_courier_content = #{commentCourierContent}
+			</if>
+			<if test="startSendTime != null  and startSendTime !=''" >
+			and start_send_time = #{startSendTime}
+			</if>
+			<if test="endSendTime != null  and endSendTime !=''" >
+			and end_send_time = #{endSendTime}
+			</if>
+			<if test="userAddressId != null  and userAddressId !=''" >
+			and user_address_id = #{userAddressId}
+			</if>
+			<if test="invoice != null  and invoice !=''" >
+			and invoice = #{invoice}
+			</if>
+			<if test="fromType != null  and fromType !=''" >
+			and from_type = #{fromType}
+			</if>
+			<if test="deliveryFee != null  and deliveryFee !=''" >
+			and delivery_fee = #{deliveryFee}
+			</if>
+			<if test="costLunchBox != null  and costLunchBox !=''" >
+			and cost_lunch_box = #{costLunchBox}
+			</if>
+			<if test="memberDiscountMoney != null  and memberDiscountMoney !=''" >
+			and member_discount_money = #{memberDiscountMoney}
+			</if>
+			<if test="merchantMemberDiscountMoney != null  and merchantMemberDiscountMoney !=''" >
+			and merchant_member_discount_money = #{merchantMemberDiscountMoney}
+			</if>
+			
+
+	  </trim>
+  	</sql>
+	<sql id="Base_Column_List" >
+	  id,pay_id,pay_type,user_id,courier_id,city_id,card_id,status,state,rstate,rereason,retime,realname,mobile,address,online_money,origin,credit,card,remark,create_time,pay_time,comment_content,comment_display,comment_taste,comment_speed,comment_service,comment_courier,comment_time,merchant_id,score_money,score,order_type,access_time,delivery_time,complete_time,urgent_time,title,ifCourier,delivery_done_time,pay_state,sale_type,order_num,out_trace_id,time_remark,cook_done_time,cook_done_code,start_time,comment_courier_content,start_send_time,end_send_time,user_address_id,invoice,from_type,delivery_fee,cost_lunch_box,member_discount_money,merchant_member_discount_money,dine_in_discount_money
+    </sql>
+    <sql id="Base_Column_List_Order" >
+	  o.id,o.pay_id,o.pay_type,o.user_id,o.courier_id,o.city_id,o.card_id,o.status,o.state,o.rstate,o.rereason,o.retime,o.realname,o.mobile,o.address,o.online_money,o.origin,o.credit,o.card,o.remark,o.create_time,o.pay_time,o.comment_content,o.comment_display,o.comment_taste,o.comment_speed,o.comment_service,o.comment_courier,o.comment_time,o.merchant_id,o.score_money,o.score,o.order_type,o.access_time,o.delivery_time,o.complete_time,o.urgent_time,o.title,o.ifCourier,o.delivery_done_time,o.pay_state,o.sale_type,o.order_num,o.out_trace_id,o.time_remark,o.cook_done_time,o.cook_done_code,o.start_time,o.comment_courier_content,o.start_send_time,o.end_send_time,o.user_address_id,o.invoice,o.from_type,o.delivery_fee,o.cost_lunch_box,o.member_discount_money,o.merchant_member_discount_money,o.dine_in_discount_money
+    </sql>
+    
+    <select id="getOrderList" resultMap="orderMap">
+    	SELECT 
+			<include refid="Base_Column_List" /> 
+			FROM `order`
+    </select>
+    
+    <select id="getOrderPageList" resultMap="orderMap" parameterType="com.dianba.userdomain.order.entity.Order">
+    	SELECT 
+			<include refid="Base_Column_List" /> 
+			FROM `order`
+			<include refid="Example_Where_Clause" />
+    </select>
+    
+    <select id="getOrderByPrimaryKey" parameterType="Long" resultMap="orderMap">
+    	SELECT 
+			<include refid="Base_Column_List" /> 
+			FROM `order` WHERE id =#{id}
+    </select>
+    
+    <insert id="createOrder" parameterType="com.dianba.userdomain.order.entity.Order">
+        <selectKey resultType="Long"  order="AFTER" keyProperty="id" >
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+		INSERT INTO `order`(
+			id,
+			pay_id,
+			pay_type,
+			user_id,
+			courier_id,
+			city_id,
+			card_id,
+			status,
+			state,
+			rstate,
+			rereason,
+			retime,
+			realname,
+			mobile,
+			address,
+			online_money,
+			origin,
+			credit,
+			card,
+			remark,
+			create_time,
+			pay_time,
+			comment_content,
+			comment_display,
+			comment_taste,
+			comment_speed,
+			comment_service,
+			comment_courier,
+			comment_time,
+			merchant_id,
+			score_money,
+			score,
+			order_type,
+			access_time,
+			delivery_time,
+			complete_time,
+			urgent_time,
+			title,
+			ifCourier,
+			delivery_done_time,
+			pay_state,
+			sale_type,
+			order_num,
+			out_trace_id,
+			time_remark,
+			cook_done_time,
+			cook_done_code,
+			start_time,
+			comment_courier_content,
+			start_send_time,
+			end_send_time,
+			user_address_id,
+			invoice,
+			from_type,
+			delivery_fee,
+			cost_lunch_box,
+			member_discount_money,
+			merchant_member_discount_money,
+			is_merchant_delivery
+		)VALUES(
+			#{id},
+			#{payId},
+			#{payType},
+			#{userId},
+			#{courierId},
+			#{cityId},
+			#{cardId},
+			#{status},
+			#{state},
+			#{rstate},
+			#{rereason},
+			#{retime},
+			#{realname},
+			#{mobile},
+			#{address},
+			#{onlineMoney},
+			#{origin},
+			#{credit},
+			#{card},
+			#{remark},
+			unix_timestamp(),
+			#{payTime},
+			#{commentContent},
+			#{commentDisplay},
+			#{commentTaste},
+			#{commentSpeed},
+			#{commentService},
+			#{commentCourier},
+			#{commentTime},
+			#{merchantId},
+			#{scoreMoney},
+			#{score},
+			#{orderType},
+			#{accessTime},
+			#{deliveryTime},
+			#{completeTime},
+			#{urgentTime},
+			#{title},
+			#{ifcourier},
+			#{deliveryDoneTime},
+			#{payState},
+			#{saleType},
+			#{orderNum},
+			#{outTraceId},
+			#{timeRemark},
+			#{cookDoneTime},
+			#{cookDoneCode},
+			#{startTime},
+			#{commentCourierContent},
+			#{startSendTime},
+			#{endSendTime},
+			#{userAddressId},
+			#{invoice},
+			#{fromType},
+			#{deliveryFee},
+			#{costLunchBox},
+			#{memberDiscountMoney},
+			#{merchantMemberDiscountMoney},
+			#{isMerchantDelivery}
+		)
+    </insert>
+    
+    <update id="updateOrder" parameterType="com.dianba.userdomain.order.entity.Order">
+		UPDATE `order` SET
+			pay_id = #{payId},
+			pay_type = #{payType},
+			user_id = #{userId},
+			courier_id = #{courierId},
+			city_id = #{cityId},
+			card_id = #{cardId},
+			status = #{status},
+			state = #{state},
+			rstate = #{rstate},
+			rereason = #{rereason},
+			retime = #{retime},
+			realname = #{realname},
+			mobile = #{mobile},
+			address = #{address},
+			online_money = #{onlineMoney},
+			origin = #{origin},
+			credit = #{credit},
+			card = #{card},
+			remark = #{remark},
+			pay_time = #{payTime},
+			comment_content = #{commentContent},
+			comment_display = #{commentDisplay},
+			comment_taste = #{commentTaste},
+			comment_speed = #{commentSpeed},
+			comment_service = #{commentService},
+			comment_courier = #{commentCourier},
+			comment_time = #{commentTime},
+			merchant_id = #{merchantId},
+			score_money = #{scoreMoney},
+			score = #{score},
+			order_type = #{orderType},
+			access_time = #{accessTime},
+			delivery_time = #{deliveryTime},
+			complete_time = #{completeTime},
+			urgent_time = #{urgentTime},
+			title = #{title},
+			ifCourier = #{ifcourier},
+			delivery_done_time = #{deliveryDoneTime},
+			pay_state = #{payState},
+			sale_type = #{saleType},
+			order_num = #{orderNum},
+			out_trace_id = #{outTraceId},
+			time_remark = #{timeRemark},
+			cook_done_time = #{cookDoneTime},
+			cook_done_code = #{cookDoneCode},
+			start_time = #{startTime},
+			comment_courier_content = #{commentCourierContent},
+			start_send_time = #{startSendTime},
+			end_send_time = #{endSendTime},
+			user_address_id = #{userAddressId},
+			invoice = #{invoice},
+			from_type = #{fromType},
+			delivery_fee = #{deliveryFee},
+			cost_lunch_box=#{costLunchBox},
+			member_discount_money = #{memberDiscountMoney},
+			merchant_member_discount_money = #{merchantMemberDiscountMoney}
+		WHERE id = #{id}
+
+    </update>
+    
+    <update id="updateOrderSelective" parameterType="com.dianba.userdomain.order.entity.Order">
+		UPDATE `order`
+		<set>
+			<if test="payId != null" >
+			pay_id = #{payId},
+			</if>
+			<if test="payType != null" >
+			pay_type = #{payType},
+			</if>
+			<if test="userId != null" >
+			user_id = #{userId},
+			</if>
+			<if test="courierId != null" >
+			courier_id = #{courierId},
+			</if>
+			<if test="cityId != null" >
+			city_id = #{cityId},
+			</if>
+			<if test="cardId != null" >
+			card_id = #{cardId},
+			</if>
+			<if test="status != null" >
+			status = #{status},
+			</if>
+			<if test="state != null" >
+			state = #{state},
+			</if>
+			<if test="rstate != null" >
+			rstate = #{rstate},
+			</if>
+			<if test="rereason != null" >
+			rereason = #{rereason},
+			</if>
+			<if test="retime != null" >
+			retime = #{retime},
+			</if>
+			<if test="realname != null" >
+			realname = #{realname},
+			</if>
+			<if test="mobile != null" >
+			mobile = #{mobile},
+			</if>
+			<if test="address != null" >
+			address = #{address},
+			</if>
+			<if test="onlineMoney != null" >
+			online_money = #{onlineMoney},
+			</if>
+			<if test="origin != null" >
+			origin = #{origin},
+			</if>
+			<if test="credit != null" >
+			credit = #{credit},
+			</if>
+			<if test="card != null" >
+			card = #{card},
+			</if>
+			<if test="remark != null" >
+			remark = #{remark},
+			</if>
+			<if test="payTime != null" >
+			pay_time = #{payTime},
+			</if>
+			<if test="commentContent != null" >
+			comment_content = #{commentContent},
+			</if>
+			<if test="commentDisplay != null" >
+			comment_display = #{commentDisplay},
+			</if>
+			<if test="commentTaste != null" >
+			comment_taste = #{commentTaste},
+			</if>
+			<if test="commentSpeed != null" >
+			comment_speed = #{commentSpeed},
+			</if>
+			<if test="commentService != null" >
+			comment_service = #{commentService},
+			</if>
+			<if test="commentCourier != null" >
+			comment_courier = #{commentCourier},
+			</if>
+			<if test="commentTime != null" >
+			comment_time = #{commentTime},
+			</if>
+			<if test="merchantId != null" >
+			merchant_id = #{merchantId},
+			</if>
+			<if test="scoreMoney != null" >
+			score_money = #{scoreMoney},
+			</if>
+			<if test="score != null" >
+			score = #{score},
+			</if>
+			<if test="orderType != null" >
+			order_type = #{orderType},
+			</if>
+			<if test="accessTime != null" >
+			access_time = #{accessTime},
+			</if>
+			<if test="deliveryTime != null" >
+			delivery_time = #{deliveryTime},
+			</if>
+			<if test="completeTime != null" >
+			complete_time = #{completeTime},
+			</if>
+			<if test="urgentTime != null" >
+			urgent_time = #{urgentTime},
+			</if>
+			<if test="title != null" >
+			title = #{title},
+			</if>
+			<if test="ifcourier != null" >
+			ifCourier = #{ifcourier},
+			</if>
+			<if test="deliveryDoneTime != null" >
+			delivery_done_time = #{deliveryDoneTime},
+			</if>
+			<if test="payState != null" >
+			pay_state = #{payState},
+			</if>
+			<if test="saleType != null" >
+			sale_type = #{saleType},
+			</if>
+			<if test="orderNum != null" >
+			order_num = #{orderNum},
+			</if>
+			<if test="outTraceId != null" >
+			out_trace_id = #{outTraceId},
+			</if>
+			<if test="timeRemark != null" >
+			time_remark = #{timeRemark},
+			</if>
+			<if test="cookDoneTime != null" >
+			cook_done_time = #{cookDoneTime},
+			</if>
+			<if test="cookDoneCode != null" >
+			cook_done_code = #{cookDoneCode},
+			</if>
+			<if test="startTime != null" >
+			start_time = #{startTime},
+			</if>
+			<if test="commentCourierContent != null" >
+			comment_courier_content = #{commentCourierContent},
+			</if>
+			<if test="startSendTime != null" >
+			start_send_time = #{startSendTime},
+			</if>
+			<if test="endSendTime != null" >
+			end_send_time = #{endSendTime},
+			</if>
+			<if test="userAddressId != null" >
+			user_address_id = #{userAddressId},
+			</if>
+			<if test="invoice != null" >
+			invoice = #{invoice},
+			</if>
+			<if test="fromType != null" >
+			from_type = #{fromType},
+			</if>
+			<if test="deliveryFee != null" >
+			delivery_fee = #{deliveryFee},
+			</if>
+			<if test="costLunchBox != null" >
+			cost_lunch_box = #{costLunchBox},
+			</if>
+			<if test="memberDiscountMoney != null" >
+			member_discount_money = #{memberDiscountMoney},
+			</if>
+			<if test="merchantMemberDiscountMoney != null" >
+			merchant_member_discount_money = #{merchantMemberDiscountMoney},
+			</if>
+			<if test="isMerchantDelivery != null" >
+			is_merchant_delivery = #{isMerchantDelivery}
+			</if>
+		</set>
+		WHERE id = #{id}
+
+    </update>
+    
+    <delete id="deleteOrder" parameterType="Long">
+    	DELETE FROM  `order` WHERE id =#{id}
+    </delete>
+<!--     
+    <select id="getOderScore" resultMap="orderScoreMap" parameterType="Long">
+	SELECT AVG(comment_taste) AS tasteScore,AVG(comment_service) AS serviceScore from `order` where merchant_id=#{id}
+    </select> -->
+    
+    <insert id="createNewOrder" parameterType="com.dianba.userdomain.order.entity.Order">
+        <selectKey resultType="Long"  order="AFTER" keyProperty="id" >
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+		INSERT INTO `order`(
+			pay_id,
+			user_id,
+			city_id,
+			merchant_id,
+			state,
+			origin,
+			create_time,
+			mobile,
+			address,
+			realname,
+			remark,
+			order_type,
+			sale_type,
+			time_remark,
+			user_address_id,
+			score,
+			score_money,
+			delivery_fee,
+			pay_type,
+			cost_lunch_box,
+			invoice,
+			<if test="fromType != null" >
+				from_type,
+			</if>
+			<if test="card != null" >
+				card,
+			</if>
+			<if test="cardId != null" >
+				card_id,
+			</if>
+			title,
+			ifCourier,
+			<if test="merchantMemberDiscountMoney != null" >
+				merchant_member_discount_money,
+			</if>
+			member_discount_money,
+			dine_in_discount_money
+		)VALUES(
+			#{payId},
+			#{userId},
+			#{cityId},
+			#{merchantId},
+			#{state},
+			#{origin},
+			unix_timestamp(),
+			#{mobile},
+			#{address},
+			#{realname},
+			#{remark},
+			#{orderType},
+			#{saleType},
+			#{timeRemark},
+			#{userAddressId},
+			#{score},
+			#{scoreMoney},
+			#{deliveryFee},
+			#{payType},
+			#{costLunchBox},
+			#{invoice},
+			<if test="fromType != null" >
+				#{fromType},
+			</if>
+			<if test="card != null" >
+				#{card},
+			</if>
+			<if test="cardId != null" >
+				#{cardId},
+			</if>
+			#{title},
+			#{ifcourier},
+			<if test="merchantMemberDiscountMoney != null" >
+				#{merchantMemberDiscountMoney},
+			</if>			
+			#{memberDiscountMoney},
+			#{dineInDiscountMoney}
+		)
+    </insert>
+    
+    <select id="getOrderCreateTime" resultType="java.lang.Long" parameterType="Long">
+	SELECT create_time as createTime FROM `order` where id=#{id}
+    </select>
+    
+    <update id="updateOrderState" parameterType="Long">
+    update `order` SET state='cancel' WHERE id=#{id}
+    </update>
+    
+        <update id="updateOrderScoreAndScoreMoney" parameterType="Long">
+    update `order` SET score_money=0,score=0 where id=#{id}
+    </update>
+    
+        <select id="getOrderByPayId" resultMap="orderMap" parameterType="Long">
+     SELECT    
+	<include refid="Base_Column_List" /> 
+		 FROM `order` WHERE pay_id=#{id}
+    </select>
+    
+    <select id="getOrders" resultMap="orderMap" parameterType="Long">
+     SELECT    
+	<include refid="Base_Column_List" /> 
+		 FROM `order` WHERE user_id=#{id}
+    </select>
+    
+    <insert id="createNewEatInOrder" parameterType="com.dianba.userdomain.order.entity.Order">
+        <selectKey resultType="Long"  order="AFTER" keyProperty="id" >
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+		INSERT INTO `order`(
+			pay_id,
+			user_id,
+			city_id,
+			merchant_id,
+			state,
+			origin,
+			create_time,
+			remark,
+			order_type,
+			sale_type,
+			time_remark,
+			score,
+			score_money,
+			delivery_fee,
+			pay_type,
+			cost_lunch_box,
+			invoice,
+			ifCourier,
+			<if test="card != null" >
+				card,
+			</if>
+			<if test="cardId != null" >
+				card_id,
+			</if>
+			<if test="merchantMemberDiscountMoney != null" >
+				merchant_member_discount_money,
+			</if>
+			member_discount_money,
+			dine_in_discount_money
+		)VALUES(
+			#{payId},
+			#{userId},
+			#{cityId},
+			#{merchantId},
+			#{state},
+			#{origin},
+			unix_timestamp(),
+			#{remark},
+			#{orderType},
+			#{saleType},
+			#{timeRemark},
+			#{score},
+			#{scoreMoney},
+			#{deliveryFee},
+			#{payType},
+			#{costLunchBox},
+			#{invoice},
+			#{ifcourier},
+			<if test="card != null" >
+				#{card},
+			</if>
+			<if test="cardId != null" >
+				#{cardId},
+			</if>
+			<if test="merchantMemberDiscountMoney != null" >
+				#{merchantMemberDiscountMoney},
+			</if>	
+			#{memberDiscountMoney},
+			#{dineInDiscountMoney}
+		)
+    </insert>
+        
+<!--         <select id="getUserOrderList" resultMap="userOrderMap" parameterType="Long">
+				SELECT
+				<include refid="Base_Column_List_Order" /> 
+				, m.title AS merchantTitle,
+				m.logo_url AS merchantPic,
+				mi.merchant_source AS merchantSource
+			FROM
+				`order` o
+			LEFT JOIN merchant m ON o.merchant_id = m.id
+			LEFT JOIN 0085_merchant_info mi ON o.merchant_id = mi.merchant_id
+			WHERE
+				o.user_id = #{id} 
+			ORDER BY
+				o.id DESC
+			LIMIT 0,
+			 20
+		</select> -->
+		
+		<select id="getUserOrderState" resultMap="orderDetailVoMap" parameterType="Long">
+				SELECT
+				<include refid="Base_Column_List_Order" /> 
+				, m.mobile AS merchantMobile,
+				m.address AS merchantAddress,
+				m.title AS merchantTitle,
+				u.mobile AS courierMobile,
+				mi.merchant_source AS merchantSource
+			FROM
+				`order` o
+			LEFT JOIN merchant m ON o.merchant_id = m.id
+			LEFT JOIN `user` u ON o.courier_id = u.id
+			LEFT JOIN 0085_merchant_info mi ON o.merchant_id = mi.merchant_id
+			WHERE
+				o.id = #{id} 
+		</select>
+		
+		<select id="judgeHaveAskrefund" resultMap="orderMap" parameterType="map">
+			SELECT 
+				<include refid="Base_Column_List" /> 
+			FROM `order` WHERE id=#{id} AND user_id=#{userId} AND rstate='askrefund'
+		</select>
+		
+		<select id="countByStatus" resultMap="allToMap" parameterType="map">
+		select distinct state, count(id) c from `order` where courier_id=#{id} and state=#{state} and DATE(FROM_UNIXTIME(create_time)) = curdate() group by state
+		</select>
+		
+		<select id="countByStatusWhenConfirm" resultMap="allToMap" parameterType="map">
+		select distinct state, count(id) c from `order` where courier_id=#{id} and state=#{state} and DATE(FROM_UNIXTIME(complete_time)) = curdate() group by state
+		</select>
+		
+		<select id="getCustType" resultType="java.lang.Long" parameterType="Long">
+		select count(id) from `order` where user_id=#{id}
+		</select>
+		
+		<select id="getTotalOriginMoney" resultMap="totalOriginMap" parameterType="Long">
+		select sum(origin) total from `order` where state='confirm' and pay_state='pay' and pay_id is not null and user_id=#{id} group by user_id 
+		</select>
+		
+		<select id="judgeHaveCancel" resultMap="orderMap" parameterType="Long">
+		SELECT 
+			<include refid="Base_Column_List" /> 
+		FROM `order` WHERE state = 'cancel' AND rstate = 'normal' and pay_state='unpay' AND id =#{id}
+		</select>
+		
+		<insert id="createCengRiceOrder" parameterType="com.dianba.userdomain.order.entity.Order">
+        <selectKey resultType="Long"  order="AFTER" keyProperty="id" >
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+		INSERT INTO `order`(
+			pay_id,
+			user_id,
+			city_id,
+			merchant_id,
+			state,
+			origin,
+			create_time,
+			mobile,
+			address,
+			realname,
+			remark,
+			order_type,
+			sale_type,
+			time_remark,
+			user_address_id,
+			score,
+			score_money,
+			delivery_fee,
+			pay_type,
+			cost_lunch_box,
+			invoice,
+			<if test="card != null" >
+				card,
+			</if>
+			<if test="cardId != null" >
+				card_id,
+			</if>
+			from_type
+		)VALUES(
+			#{payId},
+			#{userId},
+			#{cityId},
+			#{merchantId},
+			#{state},
+			#{origin},
+			unix_timestamp(),
+			#{mobile},
+			#{address},
+			#{realname},
+			#{remark},
+			#{orderType},
+			#{saleType},
+			#{timeRemark},
+			#{userAddressId},
+			#{score},
+			#{scoreMoney},
+			#{deliveryFee},
+			#{payType},
+			#{costLunchBox},
+			#{invoice},
+			<if test="card != null" >
+				#{card},
+			</if>
+			<if test="cardId != null" >
+				#{cardId},
+			</if>
+			#{fromType}
+		)
+    </insert>
+    
+    <select id="getUserOrderListPage" resultMap="userOrderMap" parameterType="Long">
+	SELECT 
+		<include refid="Base_Column_List_Order" /> 
+	,m.title AS merchantTitle,m.logo_url AS merchantPic,mi.merchant_source AS merchantSource FROM `order` o LEFT JOIN merchant m ON o.merchant_id = m.id LEFT JOIN 0085_merchant_info mi ON o.merchant_id = mi.merchant_id WHERE o.user_id=#{id} ORDER BY o.id DESC 
+	</select>
+	
+	<select id="getThirdOrder" resultMap="orderMap" >
+	SELECT  
+		<include refid="Base_Column_List" /> 
+	FROM `order` WHERE pay_id=#{pay_id} and from_type=#{from_type} and order_type=#{order_type}
+	</select>
+		
+	<select id="judgeIsComfirm" resultMap="orderMap" parameterType="map">
+	SELECT   
+		<include refid="Base_Column_List" /> 
+	FROM `order` WHERE id=#{id} AND user_id=#{userId} AND state='confirm'
+	</select>
+	
+	<insert id="createQcCodeOrder" parameterType="com.dianba.userdomain.order.entity.Order">
+        <selectKey resultType="Long"  order="AFTER" keyProperty="id" >
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+		INSERT INTO `order`(
+			pay_id,
+			user_id,
+			city_id,
+			merchant_id,
+			state,
+			origin,
+			create_time,
+			order_type,
+			sale_type,
+			pay_type
+		)VALUES(
+			#{payId},
+			#{userId},
+			#{cityId},
+			#{merchantId},
+			#{state},
+			#{origin},
+			unix_timestamp(),
+			#{orderType},
+			#{saleType},
+			#{payType}
+		)
+    </insert>
+    
+    <insert id="createQcCodeOrderByAgent" parameterType="com.dianba.userdomain.order.entity.Order">
+        <selectKey resultType="Long"  order="AFTER" keyProperty="id" >
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        INSERT INTO `order`(
+            pay_id,
+            user_id,
+            city_id,
+            agent_id,
+            merchant_id,
+            state,
+            origin,
+            create_time,
+            order_type,
+            sale_type,
+            pay_type
+        )VALUES(
+            #{payId},
+            #{userId},
+            #{cityId},
+            #{agentId},
+            #{merchantId},
+            #{state},
+            #{origin},
+            unix_timestamp(),
+            #{orderType},
+            #{saleType},
+            #{payType}
+        )
+    </insert>
+    
+    <insert id="createRechargeOrder" parameterType="com.dianba.userdomain.order.entity.Order">
+        <selectKey resultType="Long"  order="AFTER" keyProperty="id" >
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+		INSERT INTO `order`(
+			pay_id,
+			pay_type,
+			user_id,
+			origin,
+			create_time,
+			order_type,
+			title,
+			merchant_id
+			
+		)VALUES(
+			#{payId},
+			#{payType},
+			#{userId},
+			#{origin},
+			unix_timestamp(),
+			#{orderType},
+			#{title},
+			#{merchantId}
+			
+		)
+    </insert>
+    
+    <select id="getOrderByUserId" parameterType="map" resultMap="orderMap">
+    	SELECT 
+			<include refid="Base_Column_List" /> 
+			FROM `order` WHERE id =#{id} and user_id = #{userId}
+    </select>
+    
+    <select id="confirmOrderList"  parameterType="com.dianba.userdomain.order.entity.Order" resultMap="confirmOrderToMap">
+    	select distinct state, count(id) c from `order` where courier_id=#{courierId} 
+    <if test="state != null  and state !=''" >
+        and state = #{state}   
+    </if>
+    <if test="state == 'confirm' " >
+        and DATE(FROM_UNIXTIME(complete_time)) = curdate() group by state
+    </if>
+    <if test="state != 'confirm' " >
+        and DATE(FROM_UNIXTIME(create_time)) = curdate() group by state
+    </if>
+    </select>
+    
+    <select id="getOrderMerchantSource" resultMap="dineinOrderToMap" parameterType="Long">
+		select a.id,a.merchant_id,a.remark,b.merchant_source,sale_type from `order` a  LEFT JOIN 0085_merchant_info b on a.merchant_id=b.merchant_id where a.id=#{orderId} 
+	</select>
+	
+	<select id="judgeFristPrivateKitchenOrder" resultType="java.lang.Integer" parameterType="Long">
+		SELECT COUNT(o.id) count FROM `order` o LEFT JOIN 0085_merchant_info mi ON o.merchant_id=mi.merchant_id WHERE user_id=#{userId} AND mi.merchant_source =2 AND o.pay_state='pay' ORDER BY o.id DESC
+	</select>
+	
+	<select id="judgeIsAccept" resultMap="orderMap" parameterType="map">
+		SELECT 
+			<include refid="Base_Column_List" /> 
+		FROM `order` WHERE id=#{id} AND user_id=#{userId} AND state='accept' 
+	</select>
+	
+	<select id="getPromotionLimit" resultMap="promotionLimit" parameterType="map">
+		SELECT
+	ifnull(sum(m.quantity), 0) quantity
+FROM
+	`order` o,
+	order_menu m
+WHERE
+	o.user_id = #{userId}
+AND o.id = m.order_id
+AND m.menu_id = #{menuId}
+AND o.pay_state = 'pay'
+AND date(from_unixtime(o.pay_time)) = curdate()
+	</select>
+	
+	<select id="getOrderPayType" resultType="java.lang.String" parameterType="Long">
+		SELECT pay_type FROM `order` WHERE id = #{id}
+	</select>
+	
+<!-- 	<select id="findSeatingByEatinOrder" parameterType="Long" resultMap="BaseMerchantSeatingResultMap">
+        select * from merchant_seating
+        where id = (select seat_id from eatin_order where order_id = #{orderId})
+    </select> -->
+    
+  <!--   <select id="findEatinOrderByOrderId" parameterType="Long" resultMap="BaseEatinOrderResultMap">
+        select * from eatin_order where order_id = #{orderId} limit 1
+    </select> -->
+     
+</mapper>

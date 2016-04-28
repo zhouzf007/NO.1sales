@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+<mapper namespace="com.dianba.userdomain.sysdictionary.mapper.CommonSysCodeMapper">
+    <resultMap type="com.dianba.userdomain.sysdictionary.entity.SysCode" id="sysCodeMap">
+		<result property="id" column="id"/>
+		<result property="pid" column="pid"/>
+		<result property="code" column="code"/>
+		<result property="codeDesc" column="code_desc"/>
+		<result property="codeName" column="code_name"/>
+		<result property="codeValue" column="code_value"/>
+		<result property="flag" column="flag"/>
+
+    </resultMap>
+    
+    <sql id="Example_Where_Clause" >
+	  <trim prefix="where" prefixOverrides="and|or" >
+	    			<if test="id != null  and id !=''" >
+			and id = #{id}
+			</if>
+			<if test="pid != null  and pid !=''" >
+			and pid = #{pid}
+			</if>
+			<if test="code != null  and code !=''" >
+			and code = #{code}
+			</if>
+			<if test="codeDesc != null  and codeDesc !=''" >
+			and code_desc = #{codeDesc}
+			</if>
+			<if test="codeName != null  and codeName !=''" >
+			and code_name = #{codeName}
+			</if>
+			<if test="codeValue != null  and codeValue !=''" >
+			and code_value = #{codeValue}
+			</if>
+			<if test="flag != null  and flag !=''" >
+			and flag = #{flag}
+			</if>
+
+	  </trim>
+  	</sql>
+	<sql id="Base_Column_List" >
+	  id,pid,code,code_desc,code_name,code_value,flag
+    </sql>
+    
+    <select id="getSysCodeList" resultMap="sysCodeMap">
+    	SELECT 
+			<include refid="Base_Column_List" /> 
+			FROM sys_code
+    </select>
+    
+    <select id="getSysCodePageList" resultMap="sysCodeMap" parameterType="com.dianba.userdomain.sysdictionary.entity.SysCode">
+    	SELECT 
+			<include refid="Base_Column_List" /> 
+			FROM sys_code
+			<include refid="Example_Where_Clause" />
+    </select>
+    
+    <select id="getSysCodeByPrimaryKey" parameterType="Integer" resultMap="sysCodeMap">
+    	SELECT 
+			<include refid="Base_Column_List" /> 
+			FROM sys_code WHERE id =#{id}
+    </select>
+    
+    <insert id="createSysCode" parameterType="com.dianba.userdomain.sysdictionary.entity.SysCode">
+        <selectKey resultType="Integer"  order="AFTER" keyProperty="id" >
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+		INSERT INTO sys_code(
+			id,
+			pid,
+			code,
+			code_desc,
+			code_name,
+			code_value,
+			flag
+		)VALUES(
+			#{id},
+			#{pid},
+			#{code},
+			#{codeDesc},
+			#{codeName},
+			#{codeValue},
+			#{flag}
+		)
+    </insert>
+    
+    <update id="updateSysCode" parameterType="com.dianba.userdomain.sysdictionary.entity.SysCode">
+		UPDATE sys_code SET
+			pid = #{pid},
+			code = #{code},
+			code_desc = #{codeDesc},
+			code_name = #{codeName},
+			code_value = #{codeValue},
+			flag = #{flag}
+		WHERE id = #{id}
+
+    </update>
+    
+    <update id="updateSysCodeSelective" parameterType="com.dianba.userdomain.sysdictionary.entity.SysCode">
+		UPDATE sys_code
+		<set>
+			<if test="pid != null" >
+			pid = #{pid},
+			</if>
+			<if test="code != null" >
+			code = #{code},
+			</if>
+			<if test="codeDesc != null" >
+			code_desc = #{codeDesc},
+			</if>
+			<if test="codeName != null" >
+			code_name = #{codeName},
+			</if>
+			<if test="codeValue != null" >
+			code_value = #{codeValue},
+			</if>
+			<if test="flag != null" >
+			flag = #{flag}
+			</if>
+		</set>
+		WHERE id = #{id}
+
+    </update>
+    
+    <delete id="deleteSysCode" parameterType="Integer">
+    	DELETE FROM  sys_code WHERE id =#{id}
+    </delete>
+</mapper>

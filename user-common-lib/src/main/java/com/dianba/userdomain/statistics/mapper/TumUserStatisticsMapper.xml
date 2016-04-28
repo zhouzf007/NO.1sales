@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+<mapper namespace="com.dianba.userdomain.statistics.mapper.CommonTumUserStatisticsMapper">
+    <resultMap type="com.dianba.userdomain.statistics.entity.TumUserStatistics" id="tumUserStatisticsMap">
+		<result property="id" column="id"/>
+		<result property="userId" column="user_id"/>
+		<result property="totalMoney" column="total_money"/>
+		<result property="totalOrder" column="total_order"/>
+		<result property="totalRecharge" column="total_recharge"/>
+    </resultMap>
+    
+    <sql id="Example_Where_Clause" >
+	  <trim prefix="where" prefixOverrides="and|or" >
+	    			<if test="id != null  and id !=''" >
+			and id = #{id}
+			</if>
+			<if test="userId != null  and userId !=''" >
+			and user_id = #{userId}
+			</if>
+			<if test="totalMoney != null  and totalMoney !=''" >
+			and total_money = #{totalMoney}
+			</if>
+			<if test="totalOrder != null  and totalOrder !=''" >
+			and total_order = #{totalOrder}
+			</if>
+			<if test="totalRecharge != null  and totalRecharge !=''" >
+			and total_recharge = #{totalRecharge}
+			</if>
+
+	  </trim>
+  	</sql>
+	<sql id="Base_Column_List" >
+	  id,user_id,total_money,total_order,total_recharge
+    </sql>
+    
+    <select id="getTumUserStatisticsList" resultMap="tumUserStatisticsMap">
+    	SELECT 
+			<include refid="Base_Column_List" /> 
+			FROM tum_user_statistics
+    </select>
+    
+    <select id="getTumUserStatisticsPageList" resultMap="tumUserStatisticsMap" parameterType="com.dianba.userdomain.statistics.entity.TumUserStatistics">
+    	SELECT 
+			<include refid="Base_Column_List" /> 
+			FROM tum_user_statistics
+			<include refid="Example_Where_Clause" />
+    </select>
+    
+    <select id="getTumUserStatisticsByPrimaryKey" parameterType="Long" resultMap="tumUserStatisticsMap">
+    	SELECT 
+			<include refid="Base_Column_List" /> 
+			FROM tum_user_statistics WHERE id =#{id}
+    </select>
+    
+    <insert id="createTumUserStatistics" parameterType="com.dianba.userdomain.statistics.entity.TumUserStatistics">
+        <selectKey resultType="Long"  order="AFTER" keyProperty="id" >
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+		INSERT INTO tum_user_statistics(
+			id,
+			user_id,
+			total_money,
+			total_order,
+			total_recharge
+		)VALUES(
+			#{id},
+			#{userId},
+			#{totalMoney},
+			#{totalOrder},
+			#{totalRecharge}
+		)
+    </insert>
+    
+    <update id="updateTumUserStatistics" parameterType="com.dianba.userdomain.statistics.entity.TumUserStatistics">
+		UPDATE tum_user_statistics SET
+			user_id = #{userId},
+			total_money = #{totalMoney},
+			total_order = #{totalOrder},
+			total_recharge = #{totalRecharge}
+		WHERE id = #{id}
+
+    </update>
+    
+    <update id="updateTumUserStatisticsSelective" parameterType="com.dianba.userdomain.statistics.entity.TumUserStatistics">
+		UPDATE tum_user_statistics
+		<set>
+			<if test="userId != null" >
+			user_id = #{userId},
+			</if>
+			<if test="totalMoney != null" >
+			total_money = #{totalMoney},
+			</if>
+			<if test="totalOrder != null" >
+			total_order = #{totalOrder},
+			</if>
+			<if test="totalRecharge != null" >
+			total_recharge = #{totalRecharge}
+			</if>
+		</set>
+		WHERE id = #{id}
+
+    </update>
+    
+    <delete id="deleteTumUserStatistics" parameterType="Long">
+    	DELETE FROM  tum_user_statistics WHERE id =#{id}
+    </delete>
+    
+    <select id="getTumUserStatisticsByUserId" parameterType="Long" resultMap="tumUserStatisticsMap">
+    	SELECT 
+			<include refid="Base_Column_List" /> 
+			FROM tum_user_statistics WHERE user_id =#{userId}
+    </select>
+    
+    <insert id="insertTumUserStatistics" parameterType="com.dianba.userdomain.statistics.entity.TumUserStatistics">
+		INSERT INTO tum_user_statistics(
+			user_id,
+			total_money,
+			total_order,
+			total_recharge
+		)VALUES(
+			#{userId},
+			#{totalMoney},
+			1,
+			#{totalRecharge}
+		)
+    </insert>
+    
+    <update id="updateTumUserStatisticsSelectiveByUserId" parameterType="com.dianba.userdomain.statistics.entity.TumUserStatistics">
+		UPDATE `tum_user_statistics` SET total_money =(total_money+#{totalMoney}),total_order=(total_order+1) WHERE user_id=#{userId}
+    </update>
+    
+</mapper>

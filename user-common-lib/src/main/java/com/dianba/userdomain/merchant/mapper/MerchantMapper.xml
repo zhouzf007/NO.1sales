@@ -1,0 +1,519 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+<mapper namespace="com.dianba.userdomain.merchant.mapper.CommonMerchantMapper">
+    <resultMap type="com.dianba.userdomain.merchant.entity.Merchant" id="merchantMap">
+		<result property="id" column="id"/>
+		<result property="userId" column="user_id"/>
+		<result property="title" column="title"/>
+		<result property="groupId" column="group_id"/>
+		<result property="cityId" column="city_id"/>
+		<result property="bankName" column="bank_name"/>
+		<result property="bankNo" column="bank_no"/>
+		<result property="bankUser" column="bank_user"/>
+		<result property="address" column="address"/>
+		<result property="contact" column="contact"/>
+		<result property="phone" column="phone"/>
+		<result property="location" column="location"/>
+		<result property="mobile" column="mobile"/>
+		<result property="createTime" column="create_time"/>
+		<result property="longitude" column="longitude"/>
+		<result property="latitude" column="latitude"/>
+		<result property="display" column="display"/>
+		<result property="notice" column="notice"/>
+		<result property="startTime" column="start_time"/>
+		<result property="endTime" column="end_time"/>
+		<result property="deliveryTime" column="delivery_time"/>
+		<result property="businessLicense" column="business_license"/>
+		<result property="operatingPermit" column="operating_permit"/>
+		<result property="printCode" column="print_code"/>
+		<result property="cardMoney" column="card_money"/>
+		<result property="cardActivity" column="card_activity"/>
+		<result property="biddingMoney" column="bidding_money"/>
+		<result property="logoUrl" column="logo_url"/>
+		<result property="promotion" column="promotion"/>
+		<result property="costDelivery" column="cost_delivery"/>
+		<result property="type" column="type"/>
+		<result property="deliveryBegin" column="delivery_begin"/>
+		<result property="deduction" column="deduction"/>
+		<result property="orderNum" column="order_num"/>
+		<result property="incomeDate" column="income_date"/>
+		<result property="dineOrderPrint" column="dine_order_print"/>
+    </resultMap>
+     <resultMap type="com.dianba.web.vo.MerchantClassificationVo" id="merchantClassificationMap">
+    	<result property="merchantId" column="id"/>
+    	<result property="favoritesId" column="favorites_id"/>
+    	<result property="title" column="title"/>
+    	<result property="score" column="score"/>
+    	<result property="longitude" column="longitude"/>
+    	<result property="latitude" column="latitude"/>
+    	<result property="isBusiness" column="isBusiness"/>
+    	<result property="currentMonthSaleTotal" column="qua_total"/>
+    	<result property="deliveryBegin" column="delivery_begin"/>
+    	<result property="distance" column="distance"/>
+    	<result property="logoUrl" column="logo_url"/>
+    	<result property="costDelivery" column="cost_delivery"/>
+    	<result property="groupName" column="groupName"/>
+    	<result property="orderTime" column="orderTime"/>
+    	<result property="merchantSource" column="merchantSource"/>
+    	<result property="takeout" column="takeout"/>
+    	<result property="merchantDiscount" column="merchant_discount"/>
+    </resultMap>
+    
+     <resultMap type="com.dianba.web.vo.MerchantDetailsVo" id="merchantDetailsMap">
+     	<result property="id" column="id"/>
+		<result property="title" column="title"/>
+		<result property="address" column="address"/>
+		<result property="notice" column="notice"/>
+		<result property="startTime" column="start_time"/>
+		<result property="endTime" column="end_time"/>
+		<result property="businessLicense" column="business_license"/>
+		<result property="operatingPermit" column="operating_permit"/>
+		<result property="logoUrl" column="logo_url"/>
+		<result property="deliveryBegin" column="delivery_begin"/>
+		<result property="mobile" column="mobile"/>
+    </resultMap>
+    
+    <resultMap type="com.dianba.web.vo.PrivateKitchenListVo" id="privateKitchenListMap">
+     	<result property="id" column="id"/>
+		<result property="title" column="title"/>
+		<result property="address" column="address"/>
+		<result property="position" column="position"/>
+		<result property="city" column="city"/>
+		<result property="province" column="province"/>
+		<result property="pic" column="pic"/>
+		<result property="distance" column="distance"/>
+		<result property="num" column="num"/>
+		<result property="isBusiness" column="isBusiness"/>
+    </resultMap>
+    
+    <resultMap type="com.dianba.web.vo.PrivateKitchenDetailVo" id="privateKitchenDetailMap">
+     	<result property="merchantId" column="merchantId"/>
+		<result property="photoUrl" column="photoUrl"/>
+		<result property="name" column="name"/>
+		<result property="intro" column="intro"/>
+		<result property="score" column="score"/>
+		<result property="title" column="title"/>
+		<result property="address" column="address"/>
+		<result property="city" column="city"/>
+		<result property="province" column="province"/>
+		<result property="num" column="num"/>
+		<result property="notice" column="notice"/>
+		<result property="gender" column="gender"/>
+		<result property="coverPic" column="coverPic"/>
+    </resultMap>
+    
+    <resultMap type="com.dianba.web.vo.PrivateKitchenMerchantVo" id="privateKitchenMerchantMap">
+     	<result property="id" column="id"/>
+		<result property="deliveryBegin" column="delivery_begin"/>
+		<result property="startTime" column="start_time"/>
+		<result property="endTime" column="end_time"/>
+		<result property="display" column="display"/>
+    </resultMap>
+    
+    <resultMap type="java.util.HashMap" id="merchantLocationMap">
+		<result property="longitude" column="longitude"/>
+		<result property="latitude" column="latitude"/>
+    </resultMap>
+    <sql id="Example_Where_Clause" >
+	  <trim prefix="where" prefixOverrides="and|or" >
+	    	<if test="id != null  and id !=''" >
+			and id = #{id}
+			</if>
+			<if test="userId != null  and userId !=''" >
+			and user_id = #{userId}
+			</if>
+			<if test="title != null  and title !=''" >
+			and title like concat('%',#{title},'%')
+			</if>
+			<if test="groupId != null  and groupId !=''" >
+			and group_id = #{groupId}
+			</if>
+			<if test="cityId != null  and cityId !=''" >
+			and city_id = #{cityId}
+			</if>
+			<if test="bankName != null  and bankName !=''" >
+			and bank_name = #{bankName}
+			</if>
+			<if test="bankNo != null  and bankNo !=''" >
+			and bank_no = #{bankNo}
+			</if>
+			<if test="bankUser != null  and bankUser !=''" >
+			and bank_user = #{bankUser}
+			</if>
+			<if test="address != null  and address !=''" >
+			and address = #{address}
+			</if>
+			<if test="contact != null  and contact !=''" >
+			and contact = #{contact}
+			</if>
+			<if test="phone != null  and phone !=''" >
+			and phone = #{phone}
+			</if>
+			<if test="location != null  and location !=''" >
+			and location = #{location}
+			</if>
+			<if test="mobile != null  and mobile !=''" >
+			and mobile = #{mobile}
+			</if>
+			<if test="createTime != null  and createTime !=''" >
+			and create_time = #{createTime}
+			</if>
+			<if test="longitude != null  and longitude !=''" >
+			and longitude = #{longitude}
+			</if>
+			<if test="latitude != null  and latitude !=''" >
+			and latitude = #{latitude}
+			</if>
+			<if test="display != null  and display !=''" >
+			and display = #{display}
+			</if>
+			<if test="notice != null  and notice !=''" >
+			and notice = #{notice}
+			</if>
+			<if test="startTime != null  and startTime !=''" >
+			and start_time = #{startTime}
+			</if>
+			<if test="endTime != null  and endTime !=''" >
+			and end_time = #{endTime}
+			</if>
+			<if test="deliveryTime != null  and deliveryTime !=''" >
+			and delivery_time = #{deliveryTime}
+			</if>
+			<if test="businessLicense != null  and businessLicense !=''" >
+			and business_license = #{businessLicense}
+			</if>
+			<if test="operatingPermit != null  and operatingPermit !=''" >
+			and operating_permit = #{operatingPermit}
+			</if>
+			<if test="printCode != null  and printCode !=''" >
+			and print_code = #{printCode}
+			</if>
+			<if test="cardMoney != null  and cardMoney !=''" >
+			and card_money = #{cardMoney}
+			</if>
+			<if test="cardActivity != null  and cardActivity !=''" >
+			and card_activity = #{cardActivity}
+			</if>
+			<if test="biddingMoney != null  and biddingMoney !=''" >
+			and bidding_money = #{biddingMoney}
+			</if>
+			<if test="logoUrl != null  and logoUrl !=''" >
+			and logo_url = #{logoUrl}
+			</if>
+			<if test="promotion != null  and promotion !=''" >
+			and promotion = #{promotion}
+			</if>
+			<if test="costDelivery != null  and costDelivery !=''" >
+			and cost_delivery = #{costDelivery}
+			</if>
+			<if test="type != null  and type !=''" >
+			and type = #{type}
+			</if>
+			<if test="deliveryBegin != null  and deliveryBegin !=''" >
+			and delivery_begin = #{deliveryBegin}
+			</if>
+			<if test="deduction != null  and deduction !=''" >
+			and deduction = #{deduction}
+			</if>
+			<if test="orderNum != null  and orderNum !=''" >
+			and order_num = #{orderNum}
+			</if>
+			<if test="incomeDate != null  and incomeDate !=''" >
+			and income_date = #{incomeDate}
+			</if>
+			<if test="dineOrderPrint != null  and dineOrderPrint !=''" >
+			and dine_order_print = #{dineOrderPrint}
+			</if>
+	  </trim>
+  	</sql>
+	<sql id="Base_Column_List" >
+	  id,user_id,title,group_id,city_id,bank_name,bank_no,bank_user,address,contact,phone,location,mobile,create_time,longitude,latitude,display,notice,start_time,end_time,delivery_time,business_license,operating_permit,print_code,card_money,card_activity,bidding_money,logo_url,promotion,cost_delivery,type,delivery_begin,deduction,order_num,income_date,dine_order_print
+    </sql>
+    <sql id="Base_Column_List_merchant" >
+	  m.id,m.user_id,m.title,m.group_id,m.city_id,m.bank_name,m.bank_no,m.bank_user,m.address,m.contact,m.phone,m.location,m.mobile,m.create_time,m.longitude,m.latitude,m.display,m.notice,m.start_time,m.end_time,m.delivery_time,m.business_license,m.operating_permit,m.print_code,m.card_money,m.card_activity,m.bidding_money,m.logo_url,m.promotion,m.cost_delivery,m.type,m.delivery_begin,m.deduction,m.order_num,m.income_date,m.dine_order_print
+    </sql>
+
+    <select id="getMerchantList" resultMap="merchantMap">
+    	SELECT 
+			<include refid="Base_Column_List" /> 
+			FROM merchant
+    </select>
+    
+    <select id="getMerchantPageList" resultMap="merchantMap" parameterType="com.dianba.userdomain.merchant.entity.Merchant">
+    	SELECT 
+			<include refid="Base_Column_List" /> 
+			FROM merchant
+			<include refid="Example_Where_Clause" />
+    </select>
+    
+    <select id="getMerchantByPrimaryKey" parameterType="Long" resultMap="merchantMap">
+    	SELECT 
+			<include refid="Base_Column_List" /> 
+			FROM merchant WHERE id =#{id}
+    </select>
+    
+     <select id="getMerchantTitle" parameterType="Long" resultType="java.lang.String">
+    SELECT title FROM merchant WHERE id=#{id}
+    </select>
+    
+    <insert id="createMerchant" parameterType="com.dianba.userdomain.merchant.entity.Merchant">
+        <selectKey resultType="Integer"  order="AFTER" keyProperty="id" >
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+		INSERT INTO merchant(
+			id,
+			user_id,
+			title,
+			group_id,
+			city_id,
+			bank_name,
+			bank_no,
+			bank_user,
+			address,
+			contact,
+			phone,
+			location,
+			mobile,
+			create_time,
+			longitude,
+			latitude,
+			display,
+			notice,
+			start_time,
+			end_time,
+			delivery_time,
+			business_license,
+			operating_permit,
+			print_code,
+			card_money,
+			card_activity,
+			bidding_money,
+			logo_url,
+			promotion,
+			cost_delivery,
+			type,
+			delivery_begin,
+			deduction,
+			order_num,
+			income_date,
+			dine_order_print
+		)VALUES(
+			#{id},
+			#{userId},
+			#{title},
+			#{groupId},
+			#{cityId},
+			#{bankName},
+			#{bankNo},
+			#{bankUser},
+			#{address},
+			#{contact},
+			#{phone},
+			#{location},
+			#{mobile},
+			#{createTime},
+			#{longitude},
+			#{latitude},
+			#{display},
+			#{notice},
+			#{startTime},
+			#{endTime},
+			#{deliveryTime},
+			#{businessLicense},
+			#{operatingPermit},
+			#{printCode},
+			#{cardMoney},
+			#{cardActivity},
+			#{biddingMoney},
+			#{logoUrl},
+			#{promotion},
+			#{costDelivery},
+			#{type},
+			#{deliveryBegin},
+			#{deduction},
+			#{orderNum},
+			#{incomeDate},
+			#{dineOrderPrint}
+		)
+    </insert>
+    
+ 
+    
+    <update id="updateMerchant" parameterType="com.dianba.userdomain.merchant.entity.Merchant">
+		UPDATE merchant SET
+			user_id = #{userId},
+			title = #{title},
+			group_id = #{groupId},
+			city_id = #{cityId},
+			bank_name = #{bankName},
+			bank_no = #{bankNo},
+			bank_user = #{bankUser},
+			address = #{address},
+			contact = #{contact},
+			phone = #{phone},
+			location = #{location},
+			mobile = #{mobile},
+			longitude = #{longitude},
+			latitude = #{latitude},
+			display = #{display},
+			notice = #{notice},
+			start_time = #{startTime},
+			end_time = #{endTime},
+			delivery_time = #{deliveryTime},
+			business_license = #{businessLicense},
+			operating_permit = #{operatingPermit},
+			print_code = #{printCode},
+			card_money = #{cardMoney},
+			card_activity = #{cardActivity},
+			bidding_money = #{biddingMoney},
+			logo_url = #{logoUrl},
+			promotion = #{promotion},
+			cost_delivery = #{costDelivery},
+			type = #{type},
+			delivery_begin = #{deliveryBegin},
+			deduction = #{deduction},
+			order_num = #{orderNum},
+			income_date = #{incomeDate},
+			dine_order_print = #{dineOrderPrint}
+		WHERE id = #{id}
+	</update>
+	
+    
+    <update id="updateMerchantSelective" parameterType="com.dianba.userdomain.merchant.entity.Merchant">
+		UPDATE merchant
+		<set>
+			<if test="userId != null" >
+			user_id = #{userId},
+			</if>
+			<if test="title != null" >
+			title = #{title},
+			</if>
+			<if test="groupId != null" >
+			group_id = #{groupId},
+			</if>
+			<if test="cityId != null" >
+			city_id = #{cityId},
+			</if>
+			<if test="bankName != null" >
+			bank_name = #{bankName},
+			</if>
+			<if test="bankNo != null" >
+			bank_no = #{bankNo},
+			</if>
+			<if test="bankUser != null" >
+			bank_user = #{bankUser},
+			</if>
+			<if test="address != null" >
+			address = #{address},
+			</if>
+			<if test="contact != null" >
+			contact = #{contact},
+			</if>
+			<if test="phone != null" >
+			phone = #{phone},
+			</if>
+			<if test="location != null" >
+			location = #{location},
+			</if>
+			<if test="mobile != null" >
+			mobile = #{mobile},
+			</if>
+			<if test="longitude != null" >
+			longitude = #{longitude},
+			</if>
+			<if test="latitude != null" >
+			latitude = #{latitude},
+			</if>
+			<if test="display != null" >
+			display = #{display},
+			</if>
+			<if test="notice != null" >
+			notice = #{notice},
+			</if>
+			<if test="startTime != null" >
+			start_time = #{startTime},
+			</if>
+			<if test="endTime != null" >
+			end_time = #{endTime},
+			</if>
+			<if test="deliveryTime != null" >
+			delivery_time = #{deliveryTime},
+			</if>
+			<if test="businessLicense != null" >
+			business_license = #{businessLicense},
+			</if>
+			<if test="operatingPermit != null" >
+			operating_permit = #{operatingPermit},
+			</if>
+			<if test="printCode != null" >
+			print_code = #{printCode},
+			</if>
+			<if test="cardMoney != null" >
+			card_money = #{cardMoney},
+			</if>
+			<if test="cardActivity != null" >
+			card_activity = #{cardActivity},
+			</if>
+			<if test="biddingMoney != null" >
+			bidding_money = #{biddingMoney},
+			</if>
+			<if test="logoUrl != null" >
+			logo_url = #{logoUrl},
+			</if>
+			<if test="promotion != null" >
+			promotion = #{promotion},
+			</if>
+			<if test="costDelivery != null" >
+			cost_delivery = #{costDelivery},
+			</if>
+			<if test="type != null" >
+			type = #{type},
+			</if>
+			<if test="deliveryBegin != null" >
+			delivery_begin = #{deliveryBegin},
+			</if>
+			<if test="deduction != null" >
+			deduction = #{deduction},
+			</if>
+			<if test="orderNum != null" >
+			order_num = #{orderNum},
+			</if>
+			<if test="incomeDate != null" >
+			income_date = #{incomeDate},
+			</if>
+			<if test="dineOrderPrint != null" >
+			dine_order_print = #{dineOrderPrint}
+			</if>
+		</set>
+		WHERE id = #{id}
+
+    </update>
+    
+    <delete id="deleteMerchant" parameterType="Long">
+    	DELETE FROM  merchant WHERE id =#{id}
+    </delete> 
+    
+        <select id="getUserFavourite" parameterType="java.util.Map"  resultMap="merchantClassificationMap">
+		SELECT  
+			f.id as favorites_id,mi.merchant_source AS merchantSource,mer.id, mer.title,  mer.display,mer.delivery_begin,mer.logo_url,mer.cost_delivery,
+			mer.longitude, mer.latitude,
+			if((ROUND(IFNULL((tsr.total_order_time/tsr.total_order),30))>30 OR ROUND(IFNULL((tsr.total_order_time/tsr.total_order),30)) &lt;= 0),30,ROUND(IFNULL((tsr.total_order_time/tsr.total_order),30))) as orderTime,
+			ROUND(6378.138*2*ASIN(SQRT(POW(SIN((#{latitude}*PI()/180-latitude*PI()/180)/2),2)+COS(#{latitude}*PI()/180)*COS(latitude*PI()/180)*POW(SIN((#{longitude}*PI()/180-longitude*PI()/180)/2),2)))*1000) distance,
+			case
+				when mer.start_time &lt;= (DATE_FORMAT(NOW(),'%H')*3600+DATE_FORMAT(NOW(),'%i')*60+DATE_FORMAT(NOW(),'%s')) and (mer.end_time is null or  mer.end_time >= (DATE_FORMAT(NOW(),'%H')*3600+DATE_FORMAT(NOW(),'%i')*60+DATE_FORMAT(NOW(),'%s'))) then 1
+				else 0 end isBusiness,
+	        CAST(IFNULL(tsr.total_order,"0") AS signed) AS currentMonthSaleTotal,
+   			 CAST(IFNULL((tsr.total_comment_score/tsr.total_comment),"5") as decimal(2, 1)) AS score,
+			catg.name as groupName
+		FROM merchant mer 
+		LEFT JOIN category catg ON mer.group_id = catg.id
+		LEFT JOIN tpm_statistics_realtime tsr ON mer.id = tsr.merchant_id 
+     	LEFT JOIN 0085_merchant_info AS mi ON mer.id = mi.merchant_id 
+		LEFT JOIN favorites AS f ON mer.id = f.item_id
+		WHERE  mer.display = #{display}
+		AND f.type = 2
+		AND f.userId = #{userId}
+		ORDER BY isBusiness DESC ,mi.sort desc
+    </select>
+    
+</mapper>

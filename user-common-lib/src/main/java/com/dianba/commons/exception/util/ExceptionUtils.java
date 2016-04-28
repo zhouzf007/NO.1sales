@@ -1,0 +1,33 @@
+/**
+ * 
+ */
+package com.dianba.commons.exception.util;
+
+import java.io.PrintWriter;
+import java.io.StringWriter;
+
+/**
+ *
+ *
+ * @author zhoucong
+ * @date 2016年3月11日 下午8:21:10
+ */
+public class ExceptionUtils {
+
+	/**
+	 * 获取异常的堆栈信息
+	 * 
+	 * @param t
+	 * @return
+	 */
+	public static final String getStackTrace(Throwable t) {
+		StringWriter sw = new StringWriter();
+		PrintWriter pw = new PrintWriter(sw);
+		try {
+			t.printStackTrace(pw);
+			return sw.toString();
+		} finally {
+			pw.close();
+		}
+	}
+}

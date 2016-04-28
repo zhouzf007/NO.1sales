@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+<mapper namespace="com.dianba.userdomain.order.mapper.CommonPayMapper">
+    <resultMap type="com.dianba.userdomain.order.entity.Pay" id="payMap">
+		<result property="id" column="id"/>
+		<result property="vid" column="vid"/>
+		<result property="orderId" column="order_id"/>
+		<result property="bank" column="bank"/>
+		<result property="money" column="money"/>
+		<result property="currency" column="currency"/>
+		<result property="service" column="service"/>
+		<result property="createTime" column="create_time"/>
+		<result property="state" column="state"/>
+
+    </resultMap>
+    
+    <sql id="Example_Where_Clause" >
+	  <trim prefix="where" prefixOverrides="and|or" >
+	    			<if test="id != null  and id !=''" >
+			and id = #{id}
+			</if>
+			<if test="vid != null  and vid !=''" >
+			and vid = #{vid}
+			</if>
+			<if test="orderId != null  and orderId !=''" >
+			and order_id = #{orderId}
+			</if>
+			<if test="bank != null  and bank !=''" >
+			and bank = #{bank}
+			</if>
+			<if test="money != null  and money !=''" >
+			and money = #{money}
+			</if>
+			<if test="currency != null  and currency !=''" >
+			and currency = #{currency}
+			</if>
+			<if test="service != null  and service !=''" >
+			and service = #{service}
+			</if>
+			<if test="createTime != null  and createTime !=''" >
+			and create_time = #{createTime}
+			</if>
+			<if test="state != null  and state !=''" >
+			and state = #{state}
+			</if>
+
+	  </trim>
+  	</sql>
+	<sql id="Base_Column_List" >
+	  id,vid,order_id,bank,money,currency,service,create_time,state
+    </sql>
+    
+    <select id="getPayList" resultMap="payMap">
+    	SELECT 
+			<include refid="Base_Column_List" /> 
+			FROM pay
+    </select>
+    
+    <select id="getPayPageList" resultMap="payMap" parameterType="com.dianba.userdomain.order.entity.Pay">
+    	SELECT 
+			<include refid="Base_Column_List" /> 
+			FROM pay
+			<include refid="Example_Where_Clause" />
+    </select>
+    
+    <select id="getPayByPrimaryKey" parameterType="String" resultMap="payMap">
+    	SELECT 
+			<include refid="Base_Column_List" /> 
+			FROM pay WHERE id =#{id}
+    </select>
+    
+    <insert id="createPay" parameterType="com.dianba.userdomain.order.entity.Pay">
+        <selectKey resultType="String"  order="AFTER" keyProperty="id" >
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+		INSERT INTO pay(
+			id,
+			vid,
+			order_id,
+			bank,
+			money,
+			currency,
+			service,
+			create_time,
+			state
+		)VALUES(
+			#{id},
+			#{vid},
+			#{orderId},
+			#{bank},
+			#{money},
+			#{currency},
+			#{service},
+			now(),
+			#{state}
+		)
+    </insert>
+    
+     <insert id="createNewPay" parameterType="com.dianba.userdomain.order.entity.Pay">
+		INSERT INTO pay(
+			id,
+			order_id,
+			bank,
+			money,
+			service,
+			create_time,
+			state
+		)VALUES(
+			#{id},
+			#{orderId},
+			#{bank},
+			#{money},
+			#{service},
+			unix_timestamp(),
+			#{state}
+		)
+    </insert>
+    
+    <update id="updatePay" parameterType="com.dianba.userdomain.order.entity.Pay">
+		UPDATE pay SET
+			vid = #{vid},
+			order_id = #{orderId},
+			bank = #{bank},
+			money = #{money},
+			currency = #{currency},
+			service = #{service},
+			state = #{state}
+		WHERE id = #{id}
+
+    </update>
+    
+    <update id="updatePaySelective" parameterType="com.dianba.userdomain.order.entity.Pay">
+		UPDATE pay
+		<set>
+			<if test="vid != null" >
+			vid = #{vid},
+			</if>
+			<if test="orderId != null" >
+			order_id = #{orderId},
+			</if>
+			<if test="bank != null" >
+			bank = #{bank},
+			</if>
+			<if test="money != null" >
+			money = #{money},
+			</if>
+			<if test="currency != null" >
+			currency = #{currency},
+			</if>
+			<if test="service != null" >
+			service = #{service},
+			</if>
+			<if test="state != null" >
+			state = #{state}
+			</if>
+		</set>
+		WHERE id = #{id}
+
+    </update>
+    
+    <delete id="deletePay" parameterType="String">
+    	DELETE FROM  pay WHERE id =#{id}
+    </delete>
+</mapper>

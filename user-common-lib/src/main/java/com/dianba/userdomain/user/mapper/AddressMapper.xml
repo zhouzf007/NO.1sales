@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dianba.userdomain.user.mapper.CommonAddressMapper">
+	<resultMap type="com.dianba.userdomain.user.entity.Address" id="addressMap">
+		<result property="id" column="id" />
+		<result property="userId" column="user_id" />
+		<result property="addressDetail" column="address_detail" />
+		<result property="city" column="city" />
+		<result property="name" column="name" />
+		<result property="mobile" column="mobile" />
+		<result property="isDefault" column="is_default" />
+		<result property="location" column="location" />
+		<result property="createTime" column="create_time" />
+		<result property="buildingId" column="building_id" />
+		<result property="buildingFloor" column="building_floor" />
+		<result property="sex" column="sex" />
+		<result property="buildingName" column="building_name" />
+		<result property="longitude" column="longitude" />
+		<result property="latitude" column="latitude" />
+		<result property="addressType" column="address_type" />
+
+	</resultMap>
+
+	<resultMap type="com.dianba.userdomain.user.vo.AddressDetailVo"
+		id="addressDetailMap">
+		<result property="address" column="address" />
+		<result property="mobile" column="mobile" />
+		<result property="name" column="name" />
+		<result property="longitude" column="longitude" />
+		<result property="latitude" column="latitude" />
+	</resultMap>
+
+	<sql id="Example_Where_Clause">
+		<trim prefix="where" prefixOverrides="and|or">
+			<if test="id != null  and id !=''">
+				and id = #{id}
+			</if>
+			<if test="userId != null  and userId !=''">
+				and user_id = #{userId}
+			</if>
+			<if test="addressDetail != null  and addressDetail !=''">
+				and address_detail = #{addressDetail}
+			</if>
+			<if test="city != null  and city !=''">
+				and city = #{city}
+			</if>
+			<if test="name != null  and name !=''">
+				and name = #{name}
+			</if>
+			<if test="mobile != null  and mobile !=''">
+				and mobile = #{mobile}
+			</if>
+			<if test="isDefault != null  and isDefault !=''">
+				and is_default = #{isDefault}
+			</if>
+			<if test="location != null  and location !=''">
+				and location = #{location}
+			</if>
+			<if test="createTime != null  and createTime !=''">
+				and create_time = #{createTime}
+			</if>
+			<if test="buildingId != null  and buildingId !=''">
+				and building_id = #{buildingId}
+			</if>
+			<if test="buildingFloor != null  and buildingFloor !=''">
+				and building_floor = #{buildingFloor}
+			</if>
+			<if test="sex != null  and sex !=''">
+				and sex = #{sex}
+			</if>
+			<if test="buildingName != null  and buildingName !=''">
+				and building_name = #{buildingName}
+			</if>
+			<if test="longitude != null  and longitude !=''">
+				and longitude = #{longitude}
+			</if>
+			<if test="latitude != null  and latitude !=''">
+				and latitude = #{latitude}
+			</if>
+			<if test="addressType != null  and addressType !=''">
+				and address_type = #{addressType}
+			</if>
+		</trim>
+	</sql>
+	<sql id="Base_Column_List">
+		id,user_id,address_detail,city,name,mobile,is_default,location,create_time,building_id,building_floor,sex,building_name,longitude,latitude,address_type
+	</sql>
+
+	<select id="getAddressList" resultMap="addressMap">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM address
+	</select>
+
+	<select id="getAddressPageList" resultMap="addressMap"
+		parameterType="com.dianba.userdomain.user.entity.Address">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM address
+		<include refid="Example_Where_Clause" />
+		ORDER BY is_default
+	</select>
+
+	<select id="getAddressByPrimaryKey" parameterType="Long"
+		resultMap="addressMap">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM address WHERE id =#{id}
+	</select>
+
+	<select id="getAddressById" parameterType="Long" resultMap="addressDetailMap">
+		SELECT CONCAT(IFNULL(building_name,''),' ',IFNULL(address_detail,''))
+		AS address ,mobile,name,longitude,latitude FROM address where id=#{id}
+	</select>
+
+	<select id="getAddressByUserId" parameterType="Long" resultMap="addressDetailMap">
+		SELECT CONCAT(IFNULL(building_name,''),' ',IFNULL(address_detail,''))
+		AS address ,mobile,name,longitude,latitude FROM address where
+		user_id=#{userId} AND is_default = 'Y'
+	</select>
+
+	<insert id="createAddress" parameterType="com.dianba.userdomain.user.entity.Address">
+		<selectKey resultType="Long" order="AFTER" keyProperty="id">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+		INSERT INTO address(
+		id,
+		user_id,
+		address_detail,
+		city,
+		name,
+		mobile,
+		is_default,
+		location,
+		create_time,
+		building_id,
+		building_floor,
+		sex,
+		building_name,
+		longitude,
+		latitude,
+		address_type
+		)VALUES(
+		#{id},
+		#{userId},
+		#{addressDetail},
+		#{city},
+		#{name},
+		#{mobile},
+		#{isDefault},
+		#{location},
+		now(),
+		#{buildingId},
+		#{buildingFloor},
+		#{sex},
+		#{buildingName},
+		#{longitude},
+		#{latitude},
+		#{addressType}
+		)
+	</insert>
+
+	<update id="updateAddress" parameterType="com.dianba.userdomain.user.entity.Address">
+		UPDATE address SET
+		user_id = #{userId},
+		address_detail = #{addressDetail},
+		city = #{city},
+		name = #{name},
+		mobile = #{mobile},
+		is_default = #{isDefault},
+		location = #{location},
+		building_id = #{buildingId},
+		building_floor = #{buildingFloor},
+		sex = #{sex},
+		building_name = #{buildingName},
+		longitude = #{longitude},
+		latitude = #{latitude},
+		address_type = #{address_type}
+		WHERE id = #{id}
+
+	</update>
+
+	<update id="updateAddressSelective" parameterType="com.dianba.userdomain.user.entity.Address">
+		UPDATE address
+		<set>
+			<if test="userId != null">
+				user_id = #{userId},
+			</if>
+			<if test="addressDetail != null">
+				address_detail = #{addressDetail},
+			</if>
+			<if test="city != null">
+				city = #{city},
+			</if>
+			<if test="name != null">
+				name = #{name},
+			</if>
+			<if test="mobile != null">
+				mobile = #{mobile},
+			</if>
+			<if test="isDefault != null">
+				is_default = #{isDefault},
+			</if>
+			<if test="location != null">
+				location = #{location},
+			</if>
+			<if test="buildingId != null">
+				building_id = #{buildingId},
+			</if>
+			<if test="buildingFloor != null">
+				building_floor = #{buildingFloor},
+			</if>
+			<if test="sex != null">
+				sex = #{sex},
+			</if>
+			<if test="buildingName != null">
+				building_name = #{buildingName},
+			</if>
+			<if test="longitude != null">
+				longitude = #{longitude},
+			</if>
+			<if test="latitude != null">
+				latitude = #{latitude},
+			</if>
+			<if test="addressType != null">
+				address_type = #{addressType}
+			</if>
+		</set>
+		WHERE id = #{id}
+
+	</update>
+
+	<delete id="deleteAddress" parameterType="Long">
+		DELETE FROM address WHERE id =#{id}
+	</delete>
+
+	<select id="isDefaultAddress" parameterType="Long" resultMap="addressMap">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM address WHERE id =#{id} AND is_default='Y'
+	</select>
+
+	<select id="getMaxIdFromUserId" parameterType="Integer"
+		resultType="java.lang.Long">
+		SELECT MAX(id) FROM address where user_id=#{id}
+	</select>
+	
+	   <update id="updateAddressSetDefaultByUserId" parameterType="Integer" >
+		UPDATE address SET is_default = 'N' WHERE user_id = #{userId}
+    </update>
+</mapper>

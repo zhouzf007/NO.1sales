@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+<mapper namespace="com.dianba.userdomain.sysdictionary.mapper.CommonMessageMapper">
+    <resultMap type="com.dianba.userdomain.sysdictionary.entity.Message" id="messageMap">
+		<result property="id" column="id"/>
+		<result property="userId" column="user_id"/>
+		<result property="content" column="content"/>
+		<result property="read" column="read"/>
+		<result property="createTime" column="create_time"/>
+		<result property="title" column="title"/>
+
+    </resultMap>
+    
+    <sql id="Example_Where_Clause" >
+	  <trim prefix="where" prefixOverrides="and|or" >
+	    			<if test="id != null  and id !=''" >
+			and id = #{id}
+			</if>
+			<if test="userId != null  and userId !=''" >
+			and user_id = #{userId}
+			</if>
+			<if test="content != null  and content !=''" >
+			and content = #{content}
+			</if>
+			<if test="read != null  and read !=''" >
+			and read = #{read}
+			</if>
+			<if test="createTime != null  and createTime !=''" >
+			and create_time = #{createTime}
+			</if>
+			<if test="title != null  and title !=''" >
+			and title = #{title}
+			</if>
+
+	  </trim>
+  	</sql>
+	<sql id="Base_Column_List" >
+	  id,user_id,content,'read',create_time,title
+    </sql>
+    
+    <select id="getMessageList" resultMap="messageMap">
+    	SELECT 
+			<include refid="Base_Column_List" /> 
+			FROM message
+    </select>
+    
+    <select id="getMessagePageList" resultMap="messageMap" parameterType="com.dianba.userdomain.sysdictionary.entity.Message">
+    	SELECT 
+			<include refid="Base_Column_List" /> 
+			FROM message
+			<include refid="Example_Where_Clause" />
+    </select>
+    
+    <select id="getMessageByPrimaryKey" parameterType="Long" resultMap="messageMap">
+    	SELECT 
+			<include refid="Base_Column_List" /> 
+			FROM message WHERE id =#{id}
+    </select>
+    
+    <insert id="createMessage" parameterType="com.dianba.userdomain.sysdictionary.entity.Message">
+        <selectKey resultType="Long"  order="AFTER" keyProperty="id" >
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+		INSERT INTO message(
+			id,
+			user_id,
+			content,
+			read,
+			create_time,
+			title
+		)VALUES(
+			#{id},
+			#{userId},
+			#{content},
+			#{read},
+			now(),
+			#{title}
+		)
+    </insert>
+    
+    <update id="updateMessage" parameterType="com.dianba.userdomain.sysdictionary.entity.Message">
+		UPDATE message SET
+			user_id = #{userId},
+			content = #{content},
+			read = #{read},
+			title = #{title}
+		WHERE id = #{id}
+
+    </update>
+    
+    <update id="updateMessageSelective" parameterType="com.dianba.userdomain.sysdictionary.entity.Message">
+		UPDATE message
+		<set>
+			<if test="userId != null" >
+			user_id = #{userId},
+			</if>
+			<if test="content != null" >
+			content = #{content},
+			</if>
+			<if test="read != null" >
+			read = #{read},
+			</if>
+			<if test="title != null" >
+			title = #{title}
+			</if>
+		</set>
+		WHERE id = #{id}
+
+    </update>
+    
+    <delete id="deleteMessage" parameterType="Long">
+    	DELETE FROM  message WHERE id =#{id}
+    </delete>
+</mapper>

@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+<mapper namespace="com.dianba.userdomain.discount.mapper.CommonTomMerchantMemberDiscountMapper">
+    <resultMap type="com.dianba.userdomain.discount.entity.TomMerchantMemberDiscount" id="tomMerchantMemberDiscountMap">
+		<result property="id" column="id"/>
+		<result property="merchantId" column="merchant_id"/>
+		<result property="merchantDiscount" column="merchant_discount"/>
+		<result property="minRecharge" column="min_recharge"/>
+
+    </resultMap>
+    
+    <sql id="Example_Where_Clause" >
+	  <trim prefix="where" prefixOverrides="and|or" >
+	    			<if test="id != null  and id !=''" >
+			and id = #{id}
+			</if>
+			<if test="merchantId != null  and merchantId !=''" >
+			and merchant_id = #{merchantId}
+			</if>
+			<if test="merchantDiscount != null  and merchantDiscount !=''" >
+			and merchant_discount = #{merchantDiscount}
+			</if>
+			<if test="minRecharge != null  and minRecharge !=''" >
+			and min_recharge = #{minRecharge}
+			</if>
+
+	  </trim>
+  	</sql>
+	<sql id="Base_Column_List" >
+	  id,merchant_id,merchant_discount,min_recharge
+    </sql>
+    
+    <select id="getTomMerchantMemberDiscountList" resultMap="tomMerchantMemberDiscountMap">
+    	SELECT 
+			<include refid="Base_Column_List" /> 
+			FROM tom_merchant_member_discount
+    </select>
+    
+    <select id="getTomMerchantMemberDiscountPageList" resultMap="tomMerchantMemberDiscountMap" parameterType="com.dianba.userdomain.discount.entity.TomMerchantMemberDiscount">
+    	SELECT 
+			<include refid="Base_Column_List" /> 
+			FROM tom_merchant_member_discount
+			<include refid="Example_Where_Clause" />
+    </select>
+    
+    <select id="getTomMerchantMemberDiscountByPrimaryKey" parameterType="Integer" resultMap="tomMerchantMemberDiscountMap">
+    	SELECT 
+			<include refid="Base_Column_List" /> 
+			FROM tom_merchant_member_discount WHERE id =#{id}
+    </select>
+    
+    <insert id="createTomMerchantMemberDiscount" parameterType="com.dianba.userdomain.discount.entity.TomMerchantMemberDiscount">
+        <selectKey resultType="Integer"  order="AFTER" keyProperty="id" >
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+		INSERT INTO tom_merchant_member_discount(
+			id,
+			merchant_id,
+			merchant_discount,
+			min_recharge
+		)VALUES(
+			#{id},
+			#{merchantId},
+			#{merchantDiscount},
+			#{minRecharge}
+		)
+    </insert>
+    
+    <update id="updateTomMerchantMemberDiscount" parameterType="com.dianba.userdomain.discount.entity.TomMerchantMemberDiscount">
+		UPDATE tom_merchant_member_discount SET
+			merchant_id = #{merchantId},
+			merchant_discount = #{merchantDiscount},
+			min_recharge = #{minRecharge}
+		WHERE id = #{id}
+
+    </update>
+    
+    <update id="updateTomMerchantMemberDiscountSelective" parameterType="com.dianba.userdomain.discount.entity.TomMerchantMemberDiscount">
+		UPDATE tom_merchant_member_discount
+		<set>
+			<if test="merchantId != null" >
+			merchant_id = #{merchantId},
+			</if>
+			<if test="merchantDiscount != null" >
+			merchant_discount = #{merchantDiscount},
+			</if>
+			<if test="minRecharge != null" >
+			min_recharge = #{minRecharge}
+			</if>
+		</set>
+		WHERE id = #{id}
+
+    </update>
+    
+    <delete id="deleteTomMerchantMemberDiscount" parameterType="Integer">
+    	DELETE FROM  tom_merchant_member_discount WHERE id =#{id}
+    </delete>
+</mapper>

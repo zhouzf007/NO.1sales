@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+<mapper namespace="com.dianba.userdomain.discount.mapper.CommonTomPlatformAduitMapper">
+    <resultMap type="com.dianba.userdomain.discount.entity.TomPlatformAduit" id="tomPlatformAduitMap">
+		<result property="id" column="id"/>
+		<result property="merchantId" column="merchant_id"/>
+		<result property="isPass" column="is_pass"/>
+		<result property="userId" column="user_id"/>
+		<result property="auditTime" column="audit_time"/>
+		<result property="auditState" column="audit_state"/>
+		<result property="auditReason" column="audit_reason"/>
+
+    </resultMap>
+    
+    <sql id="Example_Where_Clause" >
+	  <trim prefix="where" prefixOverrides="and|or" >
+	    			<if test="id != null  and id !=''" >
+			and id = #{id}
+			</if>
+			<if test="merchantId != null  and merchantId !=''" >
+			and merchant_id = #{merchantId}
+			</if>
+			<if test="isPass != null  and isPass !=''" >
+			and is_pass = #{isPass}
+			</if>
+			<if test="userId != null  and userId !=''" >
+			and user_id = #{userId}
+			</if>
+			<if test="auditTime != null  and auditTime !=''" >
+			and audit_time = #{auditTime}
+			</if>
+			<if test="auditState != null  and auditState !=''" >
+			and audit_state = #{auditState}
+			</if>
+			<if test="auditReason != null  and auditReason !=''" >
+			and audit_reason = #{auditReason}
+			</if>
+
+	  </trim>
+  	</sql>
+	<sql id="Base_Column_List" >
+	  id,merchant_id,is_pass,user_id,audit_time,audit_state,audit_reason
+    </sql>
+    
+    <select id="getTomPlatformAduitList" resultMap="tomPlatformAduitMap">
+    	SELECT 
+			<include refid="Base_Column_List" /> 
+			FROM tom_platform_aduit
+    </select>
+    
+    <select id="getTomPlatformAduitPageList" resultMap="tomPlatformAduitMap" parameterType="com.dianba.userdomain.discount.entity.TomPlatformAduit">
+    	SELECT 
+			<include refid="Base_Column_List" /> 
+			FROM tom_platform_aduit
+			<include refid="Example_Where_Clause" />
+    </select>
+    
+    <select id="getTomPlatformAduitByPrimaryKey" parameterType="Integer" resultMap="tomPlatformAduitMap">
+    	SELECT 
+			<include refid="Base_Column_List" /> 
+			FROM tom_platform_aduit WHERE id =#{id}
+    </select>
+    
+    <insert id="createTomPlatformAduit" parameterType="com.dianba.userdomain.discount.entity.TomPlatformAduit">
+        <selectKey resultType="Integer"  order="AFTER" keyProperty="id" >
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+		INSERT INTO tom_platform_aduit(
+			id,
+			merchant_id,
+			is_pass,
+			user_id,
+			audit_time,
+			audit_state,
+			audit_reason
+		)VALUES(
+			#{id},
+			#{merchantId},
+			#{isPass},
+			#{userId},
+			#{auditTime},
+			#{auditState},
+			#{auditReason}
+		)
+    </insert>
+    
+    <update id="updateTomPlatformAduit" parameterType="com.dianba.userdomain.discount.entity.TomPlatformAduit">
+		UPDATE tom_platform_aduit SET
+			merchant_id = #{merchantId},
+			is_pass = #{isPass},
+			user_id = #{userId},
+			audit_time = #{auditTime},
+			audit_state = #{auditState},
+			audit_reason = #{auditReason}
+		WHERE id = #{id}
+
+    </update>
+    
+    <update id="updateTomPlatformAduitSelective" parameterType="com.dianba.userdomain.discount.entity.TomPlatformAduit">
+		UPDATE tom_platform_aduit
+		<set>
+			<if test="merchantId != null" >
+			merchant_id = #{merchantId},
+			</if>
+			<if test="isPass != null" >
+			is_pass = #{isPass},
+			</if>
+			<if test="userId != null" >
+			user_id = #{userId},
+			</if>
+			<if test="auditTime != null" >
+			audit_time = #{auditTime},
+			</if>
+			<if test="auditState != null" >
+			audit_state = #{auditState},
+			</if>
+			<if test="auditReason != null" >
+			audit_reason = #{auditReason}
+			</if>
+		</set>
+		WHERE id = #{id}
+
+    </update>
+    
+    <delete id="deleteTomPlatformAduit" parameterType="Integer">
+    	DELETE FROM  tom_platform_aduit WHERE id =#{id}
+    </delete>
+</mapper>

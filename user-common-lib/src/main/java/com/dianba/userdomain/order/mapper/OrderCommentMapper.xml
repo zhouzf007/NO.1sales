@@ -1,0 +1,285 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+<mapper namespace="com.dianba.userdomain.order.mapper.CommonOrderCommentMapper">
+    <resultMap type="com.dianba.userdomain.order.entity.OrderComment" id="orderCommentMap">
+		<result property="id" column="id"/>
+		<result property="orderId" column="order_id"/>
+		<result property="commentContent" column="comment_content"/>
+		<result property="commentDisplay" column="comment_display"/>
+		<result property="commentTarget" column="comment_target"/>
+		<result property="grade" column="grade"/>
+		<result property="invalid" column="invalid"/>
+		<result property="commentTargetId" column="comment_target_id"/>
+		<result property="userId" column="user_id"/>
+		<result property="commentTime" column="comment_time"/>
+
+    </resultMap>
+    
+        <resultMap type="com.dianba.web.vo.MerchantCommentVo" id="MerchantCommentMap">
+		<result property="nickName" column="nickName"/>
+		<result property="grade" column="grade"/>
+		<result property="commentContent" column="comment_content"/>
+		<result property="commentTime" column="comment_time"/>
+		<result property="tags" column="tags"/>
+		<result property="photoUrl" column="photoUrl"/>
+    </resultMap>
+    
+    <resultMap type="java.util.HashMap" id="allToMap">
+		<result property="score" column="score"/>
+		<result property="serveGrade" column="serveGrade"/>
+		<result property="avgGrade" column="avgGrade"/>
+    </resultMap>
+        
+    <sql id="Example_Where_Clause" >
+	  <trim prefix="where" prefixOverrides="and|or" >
+	    			<if test="id != null  and id !=''" >
+			and id = #{id}
+			</if>
+			<if test="orderId != null  and orderId !=''" >
+			and order_id = #{orderId}
+			</if>
+			<if test="commentContent != null  and commentContent !=''" >
+			and comment_content = #{commentContent}
+			</if>
+			<if test="commentDisplay != null  and commentDisplay !=''" >
+			and comment_display = #{commentDisplay}
+			</if>
+			<if test="commentTarget != null  and commentTarget !=''" >
+			and comment_target = #{commentTarget}
+			</if>
+			<if test="grade != null  and grade !=''" >
+			and grade = #{grade}
+			</if>
+			<if test="invalid != null  and invalid !=''" >
+			and invalid = #{invalid}
+			</if>
+			<if test="commentTargetId != null  and commentTargetId !=''" >
+			and comment_target_id = #{commentTargetId}
+			</if>
+			<if test="userId != null  and userId !=''" >
+			and user_id = #{userId}
+			</if>
+			<if test="commentTime != null  and commentTime !=''" >
+			and comment_time = #{commentTime}
+			</if>
+
+	  </trim>
+  	</sql>
+	<sql id="Base_Column_List" >
+	  id,order_id,comment_content,comment_display,comment_target,grade,invalid,comment_target_id,user_id,comment_time
+    </sql>
+    
+    <select id="getOrderCommentList" resultMap="orderCommentMap">
+    	SELECT 
+			<include refid="Base_Column_List" /> 
+			FROM 0085_order_comment
+    </select>
+    
+    <select id="getOrderCommentPageList" resultMap="orderCommentMap" parameterType="com.dianba.userdomain.order.entity.OrderComment">
+    	SELECT 
+			<include refid="Base_Column_List" /> 
+			FROM 0085_order_comment
+			<include refid="Example_Where_Clause" />
+    </select>
+    
+    <select id="getOrderCommentByPrimaryKey" parameterType="Long" resultMap="orderCommentMap">
+    	SELECT 
+			<include refid="Base_Column_List" /> 
+			FROM 0085_order_comment WHERE id =#{id}
+    </select>
+    
+        <select id="getOrderCommentListByMerchantId" parameterType="Long" resultMap="MerchantCommentMap">
+	SELECT u.nickname,u.photoUrl,oc.grade,oc.comment_content,oc.comment_time from 0085_order_comment oc
+	left join user u on u.id=oc.user_id
+	where  oc.comment_target=1 and  oc.comment_target_id =#{id} order by oc.id limit 0,10
+    	</select>
+    
+    <select id="getOrderCommentHaveContentListByMerchantId" parameterType="Long" resultMap="MerchantCommentMap">
+	SELECT u.nickname,oc.grade,oc.comment_content,oc.comment_time from 0085_order_comment oc
+	left join user u on u.id=oc.user_id
+	where  oc.comment_target=1 and  oc.comment_target_id =#{id} AND oc.comment_content &lt;&gt; '' order by oc.id;
+    	</select>
+    
+    <insert id="createOrderComment" parameterType="com.dianba.userdomain.order.entity.OrderComment">
+        <selectKey resultType="Long"  order="AFTER" keyProperty="id" >
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+		INSERT INTO 0085_order_comment(
+			order_id,
+			comment_content,
+			comment_display,
+			comment_target,
+			tags,
+			grade,
+			invalid,
+			comment_target_id,
+			user_id,
+			comment_time
+		)VALUES(
+			#{orderId},
+			#{commentContent},
+			#{commentDisplay},
+			#{commentTarget},
+			#{tags},
+			#{grade},
+			#{invalid},
+			#{commentTargetId},
+			#{userId},
+			unix_timestamp()
+		)
+    </insert>
+    
+    <update id="updateOrderComment" parameterType="com.dianba.userdomain.order.entity.OrderComment">
+		UPDATE 0085_order_comment SET
+			order_id = #{orderId},
+			comment_content = #{commentContent},
+			comment_display = #{commentDisplay},
+			comment_target = #{commentTarget},
+			grade = #{grade},
+			invalid = #{invalid},
+			comment_target_id = #{commentTargetId},
+			user_id = #{userId},
+			comment_time = #{commentTime}
+		WHERE id = #{id}
+
+    </update>
+    
+    <update id="updateOrderCommentSelective" parameterType="com.dianba.userdomain.order.entity.OrderComment">
+		UPDATE 0085_order_comment
+		<set>
+			<if test="orderId != null" >
+			order_id = #{orderId},
+			</if>
+			<if test="commentContent != null" >
+			comment_content = #{commentContent},
+			</if>
+			<if test="commentDisplay != null" >
+			comment_display = #{commentDisplay},
+			</if>
+			<if test="commentTarget != null" >
+			comment_target = #{commentTarget},
+			</if>
+			<if test="grade != null" >
+			grade = #{grade},
+			</if>
+			<if test="invalid != null" >
+			invalid = #{invalid},
+			</if>
+			<if test="commentTargetId != null" >
+			comment_target_id = #{commentTargetId},
+			</if>
+			<if test="userId != null" >
+			user_id = #{userId},
+			</if>
+			<if test="commentTime != null" >
+			comment_time = #{commentTime}
+			</if>
+		</set>
+		WHERE id = #{id}
+
+    </update>
+    
+    <delete id="deleteOrderComment" parameterType="Long">
+    	DELETE FROM  0085_order_comment WHERE id =#{id}
+    </delete>
+    <delete id="deleteCommentByOrderId" parameterType="Long">
+    	DELETE FROM  0085_order_comment WHERE order_id =#{0} and comment_target_id = #{1}
+    </delete>
+    
+    <select id="queryCommentScore" parameterType="Long" resultType="string">
+    	select cast(ifnull(avg(oc.grade), 5) as decimal(2, 1)) as score
+		from 0085_order_comment as oc
+		where oc.comment_target = 1 and oc.comment_target_id = #{targetId} and oc.comment_display = 'Y'
+    </select>
+    
+    <select id="getMerchantGrade" parameterType="Long" resultType="java.lang.Double">
+    	select cast(ifnull(avg(oc.grade), 5) as decimal(2, 1)) as score
+			from 0085_order_comment as oc
+				where oc.comment_target = 2 and oc.comment_target_id = #{id} and oc.comment_display = 'Y'
+    </select>
+    
+    <select id="getMerchantServeGrade" parameterType="Long" resultType="java.lang.Double">
+    	select cast(ifnull(avg(oc.grade), 5) as decimal(2, 1)) as score
+			from 0085_order_comment as oc
+				where oc.comment_target = 0 and oc.comment_target_id = #{id} and oc.comment_display = 'Y'
+    </select>
+    
+    <select id="getMerchantCommentAmountAll" parameterType="Long" resultType="java.lang.Integer">
+	SELECT count(*)amount from 0085_order_comment oc
+	left join user u on u.id=oc.user_id
+	where  oc.comment_target=1 and  oc.comment_target_id =#{id} 
+    	</select>
+    
+    <select id="getMerchantCommentAmountHaveComment" parameterType="Long" resultType="java.lang.Integer">
+	SELECT count(*)amount from 0085_order_comment oc
+	left join user u on u.id=oc.user_id
+	where  oc.comment_target=1 and  oc.comment_target_id =#{id} AND oc.comment_content &lt;&gt; '' ;
+    	</select>
+    	
+    	<select id="judgeHaveComment" parameterType="map" resultMap="orderCommentMap">
+    	SELECT * FROM 0085_order_comment WHERE order_id=#{orderId} and user_id=#{userId} AND comment_display='Y'
+    	</select>
+    	
+    	<select id="judgeHaveDefaultComment" parameterType="map" resultMap="orderCommentMap">
+	SELECT * FROM 0085_order_comment WHERE order_id=#{orderId} AND user_id=#{userId} AND comment_target=#{target} AND comment_target_id=#{targetId} AND comment_display IN ('Y','S')
+    	</select>
+    	
+    	<update id="updateOrderCommentContent" parameterType="map">
+		UPDATE 0085_order_comment SET comment_content=#{content},comment_display='Y',grade=#{grade},tags=#{tags} WHERE id=#{id}
+    </update>
+    
+    <select id="getOrderCommentListPageByMerchantId" parameterType="Long" resultMap="MerchantCommentMap">
+	SELECT u.nickname,u.photoUrl,oc.grade,oc.comment_content,oc.tags,oc.comment_time from 0085_order_comment oc
+	left join user u on u.id=oc.user_id
+	where  oc.comment_target=2 and  oc.comment_target_id =#{id} order by oc.id DESC
+    	</select>
+    	
+    	<select id="getMerchantAvgGrade" parameterType="Long" resultType="java.lang.Double">
+    	select cast(ifnull(avg(oc.grade), 5) as decimal(2, 1)) as score
+			from 0085_order_comment as oc
+				where oc.comment_target = 1 and oc.comment_target_id = #{id} and oc.comment_display = 'Y'
+    </select>
+    
+    <select id="merchantScore" parameterType="Long" resultMap="allToMap">
+    	select cast(ifnull(avg(oc.grade), 5) as decimal(2, 1)) as tasteGrade ,(select cast(ifnull(avg(oc.grade), 5) as decimal(2, 1)) as score
+			from 0085_order_comment as oc
+				where oc.comment_target = 0 and oc.comment_target_id = #{id} and oc.comment_display = 'Y') AS serveGrade
+			from 0085_order_comment as oc
+				where oc.comment_target = 2 and oc.comment_target_id = #{id} and oc.comment_display = 'Y'
+    </select>
+    
+    <select id="courierScore" parameterType = "Long" resultMap="orderCommentMap">
+    	SELECT
+				oc.*
+			FROM
+				`order` AS o
+			LEFT JOIN 0085_order_comment AS 
+			oc ON (o.courier_id = oc.comment_target_id AND o.id=oc.order_id)
+			WHERE
+				o.merchant_id = #{id}
+			AND oc.comment_target_id != 0
+			AND oc.comment_target = 0
+			ORDER BY oc.id DESC
+    </select>
+    
+    <!-- 根据id获取评价对象 -->
+    <select id="getcommentTarget" parameterType="Long" resultType="java.lang.Integer">
+    	SELECT comment_target FROM 0085_order_comment WHERE comment_target_id = #{id}
+    </select>
+    <select id="getOrderCommentCountByMerchantId" parameterType="Long" resultType="java.lang.Integer">
+		SELECT count(*) AS count FROM 0085_order_comment where  oc.comment_target=1 and  oc.comment_target_id =#{merchantId}
+    	</select>
+    	
+    	<select id="getOrderCommentFirstByMerchantId" parameterType="Long" resultMap="MerchantCommentMap">
+		SELECT u.nickname,u.photoUrl,oc.grade,oc.comment_content,oc.comment_time from 0085_order_comment oc
+	left join user u on u.id=oc.user_id
+	where  oc.comment_target=1 and  oc.comment_target_id =#{merchantId} LIMIT 0,1
+    	</select>
+    	
+    	<select id="getPrivateKitchenOrderCommentListByMerchantId" parameterType="Long" resultMap="MerchantCommentMap">
+		SELECT u.nickname,u.photoUrl,oc.grade,oc.comment_content,oc.comment_time from 0085_order_comment oc
+	left join user u on u.id=oc.user_id
+	where  oc.comment_target=1 and  oc.comment_target_id =#{merchantId} ORDER BY oc.comment_time DESC
+    	</select>
+    	
+</mapper>

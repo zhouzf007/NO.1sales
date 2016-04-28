@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+<mapper namespace="com.dianba.userdomain.user.mapper.FavoritesMapper">
+    <resultMap type="com.dianba.userdomain.user.entity.Favorites" id="favoritesMap">
+		<result property="id" column="id"/>
+		<result property="type" column="type"/>
+		<result property="userid" column="userid"/>
+		<result property="itemId" column="item_id"/>
+		<result property="fTime" column="f_time"/>
+
+    </resultMap>
+    
+    <sql id="Example_Where_Clause" >
+	  <trim prefix="where" prefixOverrides="and|or" >
+	    			<if test="id != null  and id !=''" >
+			and id = #{id}
+			</if>
+			<if test="type != null  and type !=''" >
+			and type = #{type}
+			</if>
+			<if test="userid != null  and userid !=''" >
+			and userid = #{userid}
+			</if>
+			<if test="itemId != null  and itemId !=''" >
+			and item_id = #{itemId}
+			</if>
+			<if test="fTime != null  and fTime !=''" >
+			and f_time = #{fTime}
+			</if>
+
+	  </trim>
+  	</sql>
+	<sql id="Base_Column_List" >
+	  id,type,userid,item_id,f_time
+    </sql>
+    
+    <select id="getFavoritesList" resultMap="favoritesMap">
+    	SELECT 
+			<include refid="Base_Column_List" /> 
+			FROM favorites
+    </select>
+    
+    <select id="getFavoritesPageList" resultMap="favoritesMap" parameterType="com.dianba.userdomain.user.entity.Favorites">
+    	SELECT 
+			<include refid="Base_Column_List" /> 
+			FROM favorites
+			<include refid="Example_Where_Clause" />
+			ORDER BY f_time DESC
+    </select>
+    
+    <select id="getFavoritesByPrimaryKey" parameterType="Integer" resultMap="favoritesMap">
+    	SELECT 
+			<include refid="Base_Column_List" /> 
+			FROM favorites WHERE id =#{id}
+    </select>
+    
+    <insert id="createFavorites" parameterType="com.dianba.userdomain.user.entity.Favorites">
+        <selectKey resultType="Integer"  order="AFTER" keyProperty="id" >
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+		INSERT INTO favorites(
+			type,
+			userid,
+			item_id,
+			f_time
+		)VALUES(
+			#{type},
+			#{userid},
+			#{itemId},
+			unix_timestamp()
+		)
+    </insert>
+    
+    <update id="updateFavorites" parameterType="com.dianba.userdomain.user.entity.Favorites">
+		UPDATE favorites SET
+			type = #{type},
+			userid = #{userid},
+			item_id = #{itemId},
+			f_time = #{fTime}
+		WHERE id = #{id}
+
+    </update>
+    
+    <update id="updateFavoritesSelective" parameterType="com.dianba.userdomain.user.entity.Favorites">
+		UPDATE favorites
+		<set>
+			<if test="type != null" >
+			type = #{type},
+			</if>
+			<if test="userid != null" >
+			userid = #{userid},
+			</if>
+			<if test="itemId != null" >
+			item_id = #{itemId},
+			</if>
+			<if test="fTime != null" >
+			f_time = #{fTime}
+			</if>
+		</set>
+		WHERE id = #{id}
+
+    </update>
+    
+    <delete id="deleteFavorites" parameterType="Integer">
+    	DELETE FROM  favorites WHERE id =#{id}
+    </delete>
+    
+    <!-- 取消收藏 -->
+    <delete id="doDeleteFavorites" parameterType="map">
+    	DELETE FROM  favorites WHERE type = #{type} AND userid = #{userId} AND item_id = #{merchantId}
+    </delete>
+    
+    <select id="getUserFavorites" parameterType="map" resultMap="favoritesMap">
+    	SELECT 
+			<include refid="Base_Column_List" /> 
+			FROM favorites WHERE userid=#{userId} AND type=2 AND item_id=#{merchantId}
+    </select>
+    
+</mapper>

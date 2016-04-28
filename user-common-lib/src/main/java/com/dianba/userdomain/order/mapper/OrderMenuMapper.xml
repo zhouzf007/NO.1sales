@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+<mapper namespace="com.dianba.userdomain.order.mapper.CommonOrderMenuMapper">
+    <resultMap type="com.dianba.userdomain.order.entity.OrderMenu" id="orderMenuMap">
+		<result property="id" column="id"/>
+		<result property="orderId" column="order_id"/>
+		<result property="menuId" column="menu_id"/>
+		<result property="quantity" column="quantity"/>
+		<result property="price" column="price"/>
+		<result property="totalPrice" column="total_price"/>
+		<result property="state" column="state"/>
+		<result property="promotionMoney" column="promotion_money"/>
+		<result property="salesPromotion" column="sales_promotion"/>
+		<result property="menuPromotionId" column="menu_promotion_id"/>
+
+    </resultMap>
+    
+  <!--   <resultMap type="com.dianba.web.vo.OrderMenuBuyCountVo" id="orderMenuBuyCount">
+		<result property="menuId" column="menu_id"/>
+		<result property="buyCount" column="buyCount"/>
+    </resultMap> -->
+    
+<!--    	<resultMap type="com.dianba.web.vo.MerchantMenuVo" id="merchantMenuMap">
+		<result property="name" column="name"/>
+		<result property="price" column="price"/>
+		<result property="buyCount" column="quantity"/>
+		<result property="image" column="image"/>
+    </resultMap> -->
+    
+    <resultMap type="com.dianba.userdomain.order.vo.OrderMenuVo" id="orderMenuVoMap">
+		<result property="menuId" column="menuId"/>
+		<result property="menuName" column="menuName"/>
+		<result property="price" column="price"/>
+		<result property="count" column="count"/>
+		<result property="repertory" column="repertory"/>
+    </resultMap>
+    
+    <resultMap type="java.util.HashMap" id="allToMap">
+		<result property="name" column="name"/>
+		<result property="quantity" column="quantity"/>
+		<result property="price" column="price"/>
+		<result property="total_price" column="total_price"/>
+    </resultMap>
+    
+    <resultMap type="java.util.HashMap" id="dineinOrderMap">
+		<result property="print_type" column="print_type"/>
+		<result property="quantity" column="quantity"/>
+		<result property="total_price" column="total_price"/>
+		<result property="name" column="name"/>
+    </resultMap>
+    
+<!--     <resultMap type="com.dianba.web.vo.NewOrderVo" id="newOrderMap">
+		<result property="id" column="id"/>
+		<result property="orderId" column="orderId"/>
+		<result property="menuId" column="menuId"/>
+		<result property="promotion" column="promotion"/>
+
+    </resultMap> -->
+    
+    
+    <sql id="Example_Where_Clause" >
+	  <trim prefix="where" prefixOverrides="and|or" >
+	    			<if test="id != null  and id !=''" >
+			and id = #{id}
+			</if>
+			<if test="orderId != null  and orderId !=''" >
+			and order_id = #{orderId}
+			</if>
+			<if test="menuId != null  and menuId !=''" >
+			and menu_id = #{menuId}
+			</if>
+			<if test="quantity != null  and quantity !=''" >
+			and quantity = #{quantity}
+			</if>
+			<if test="price != null  and price !=''" >
+			and price = #{price}
+			</if>
+			<if test="totalPrice != null  and totalPrice !=''" >
+			and total_price = #{totalPrice}
+			</if>
+			<if test="state != null  and state !=''" >
+			and state = #{state}
+			</if>
+			<if test="promotionMoney != null  and promotionMoney !=''" >
+			and promotion_money = #{promotionMoney}
+			</if>
+			<if test="salesPromotion != null  and salesPromotion !=''" >
+			and sales_promotion = #{salesPromotion}
+			</if>
+			<if test="menuPromotionId != null  and menuPromotionId !=''" >
+			and menu_promotion_id = #{menuPromotionId}
+			</if>
+
+	  </trim>
+  	</sql>
+	<sql id="Base_Column_List" >
+	  id,order_id,menu_id,quantity,price,total_price,state,promotion_money,sales_promotion,menu_promotion_id
+    </sql>
+    
+    <select id="getOrderMenuList" resultMap="orderMenuMap">
+    	SELECT 
+			<include refid="Base_Column_List" /> 
+			FROM order_menu
+    </select>
+    
+    <select id="getOrderMenuPageList" resultMap="orderMenuMap" parameterType="com.dianba.userdomain.order.entity.OrderMenu">
+    	SELECT 
+			<include refid="Base_Column_List" /> 
+			FROM order_menu
+			<include refid="Example_Where_Clause" />
+    </select>
+    
+    <select id="getOrderMenuByPrimaryKey" parameterType="Long" resultMap="orderMenuMap">
+    	SELECT 
+			<include refid="Base_Column_List" /> 
+			FROM order_menu WHERE id =#{id}
+    </select>
+    
+    <insert id="createOrderMenu" parameterType="com.dianba.userdomain.order.entity.OrderMenu">
+        <selectKey resultType="Long"  order="AFTER" keyProperty="id" >
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+		INSERT INTO order_menu(
+			id,
+			order_id,
+			menu_id,
+			quantity,
+			price,
+			total_price,
+			state,
+			promotion_money,
+			sales_promotion,
+			menu_promotion_id
+		)VALUES(
+			#{id},
+			#{orderId},
+			#{menuId},
+			#{quantity},
+			#{price},
+			#{totalPrice},
+			#{state},
+			#{promotionMoney},
+			#{salesPromotion},
+			#{menuPromotionId}
+		)
+    </insert>
+    
+    <update id="updateOrderMenu" parameterType="com.dianba.userdomain.order.entity.OrderMenu">
+		UPDATE order_menu SET
+			order_id = #{orderId},
+			menu_id = #{menuId},
+			quantity = #{quantity},
+			price = #{price},
+			total_price = #{totalPrice},
+			state = #{state},
+			promotion_money = #{promotionMoney},
+			sales_promotion = #{salesPromotion},
+			menu_promotion_id = #{menuPromotionId}
+		WHERE id = #{id}
+
+    </update>
+    
+    <update id="updateOrderMenuSelective" parameterType="com.dianba.userdomain.order.entity.OrderMenu">
+		UPDATE order_menu
+		<set>
+			<if test="orderId != null" >
+			order_id = #{orderId},
+			</if>
+			<if test="menuId != null" >
+			menu_id = #{menuId},
+			</if>
+			<if test="quantity != null" >
+			quantity = #{quantity},
+			</if>
+			<if test="price != null" >
+			price = #{price},
+			</if>
+			<if test="totalPrice != null" >
+			total_price = #{totalPrice},
+			</if>
+			<if test="state != null" >
+			state = #{state},
+			</if>
+			<if test="promotionMoney != null" >
+			promotion_money = #{promotionMoney},
+			</if>
+			<if test="salesPromotion != null" >
+			sales_promotion = #{salesPromotion},
+			</if>
+			<if test="menuPromotionId != null" >
+			menu_promotion_id = #{menuPromotionId}
+			</if>
+		</set>
+		WHERE id = #{id}
+
+    </update>
+    
+    <delete id="deleteOrderMenu" parameterType="Long">
+    	DELETE FROM  order_menu WHERE id =#{id}
+    </delete>
+    
+<!--     <select id="getOrderBuyCount" resultMap="orderMenuBuyCount" parameterType="map">
+    	SELECT om.menu_id,count(om.menu_id) as buyCount from order_menu om  where om.order_id IN 
+			(SELECT o.id from `order` o where merchant_id=#{id} and FROM_UNIXTIME(o.create_time,#{date}) = #{time})
+		group by om.menu_id
+		ORDER BY 2 ;
+    </select>  -->
+    
+<!--     <select id="getMenuByOrderId" parameterType="java.lang.Integer" resultMap="merchantMenuMap">
+    	SELECT m.name,m.price,m.image ,om.quantity  FROM order_menu om LEFT JOIN menu m ON om.menu_id = m.id WHERE om.order_id = #{orderId}
+    </select> -->
+    
+        <insert id="createNewOrderMenu" parameterType="com.dianba.userdomain.order.entity.OrderMenu">
+        <selectKey resultType="Long"  order="AFTER" keyProperty="id" >
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+		INSERT INTO order_menu(
+			order_id,
+			menu_id,
+			quantity,
+			price,
+			total_price,
+			promotion_money,
+			sales_promotion,
+			menu_promotion_id
+		)VALUES(
+			#{orderId},
+			#{menuId},
+			#{quantity},
+			#{price},
+			#{totalPrice},
+			#{promotionMoney},
+			#{salesPromotion},
+			#{menuPromotionId}
+		)
+    </insert>
+    
+    <select id="getOrderMenuListByOrderId" resultMap="orderMenuMap" parameterType="Long">
+    SELECT 
+		<include refid="Base_Column_List" /> 
+		 FROM order_menu WHERE order_id =#{id}
+    </select>
+    
+    <select id="getOrderMenuListByOrderIdAndRealTimePrice" resultMap="orderMenuVoMap" parameterType="Long">
+			SELECT om.menu_id AS menuId,m.`name` AS menuName,om.quantity AS count,om.price AS price,m.repertory AS repertory,om.sales_promotion AS salesPromotion FROM order_menu om LEFT JOIN menu m ON om.menu_id=m.id WHERE order_id=#{id}
+    </select>
+    
+    <select id="readyToPrint" resultMap="allToMap" parameterType="Long">
+			select b.name,a.quantity,a.price,(a.price*a.quantity) total_price from order_menu a left join menu b on a.menu_id=b.id where a.order_id=#{id}
+    </select>
+    
+    <select id="getDineinOrderMenu" parameterType="Long" resultMap="dineinOrderMap">
+    	SELECT m.print_type,o_m.quantity,o_m.total_price,m.name FROM order_menu o_m,menu m WHERE o_m.menu_id=m.id AND o_m.order_id=#{orderId}
+    </select>
+    
+    <select id="getOrderMenuCount" parameterType="Long" resultType="java.lang.Integer">
+    	SELECT COUNT(1) FROM order_menu WHERE order_id =#{orderId}
+    </select>
+    
+<!--     <select id="judgeCanNewOrder" parameterType="Long" resultMap="newOrderMap">
+    	SELECT
+om.id,om.order_id AS orderId,om.menu_id AS menuId,om.sales_promotion AS promotion
+FROM
+	`order_menu` AS om
+LEFT JOIN menu AS m ON om.menu_id = m.id
+WHERE
+	om.order_id = #{orderId}
+AND m.display = 'Y'
+AND om.quantity &lt;= m.today_repertory
+GROUP BY menu_id
+    </select> -->
+</mapper>

@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+<mapper namespace="com.dianba.userdomain.order.mapper.CommonOrderStateMapper">
+    <resultMap type="com.dianba.userdomain.order.entity.OrderState" id="orderStateMap">
+		<result property="id" column="id"/>
+		<result property="orderId" column="order_id"/>
+		<result property="dealTime" column="deal_time"/>
+		<result property="state" column="state"/>
+		<result property="detail" column="detail"/>
+
+    </resultMap>
+    
+    <resultMap type="com.dianba.userdomain.order.vo.OrderStateVo" id="orderStateVoMap">
+		<result property="id" column="id"/>
+		<result property="orderId" column="order_id"/>
+		<result property="dealTime" column="deal_time"/>
+		<result property="state" column="state"/>
+		<result property="detail" column="detail"/>
+
+    </resultMap>
+    
+    <sql id="Example_Where_Clause" >
+	  <trim prefix="where" prefixOverrides="and|or" >
+	    			<if test="id != null  and id !=''" >
+			and id = #{id}
+			</if>
+			<if test="orderId != null  and orderId !=''" >
+			and order_id = #{orderId}
+			</if>
+			<if test="dealTime != null  and dealTime !=''" >
+			and deal_time = #{dealTime}
+			</if>
+			<if test="state != null  and state !=''" >
+			and state = #{state}
+			</if>
+			<if test="detail != null  and detail !=''" >
+			and detail = #{detail}
+			</if>
+
+	  </trim>
+  	</sql>
+	<sql id="Base_Column_List" >
+	  id,order_id,deal_time,state,detail
+    </sql>
+    
+    <select id="getOrderStateList" resultMap="orderStateMap">
+    	SELECT 
+			<include refid="Base_Column_List" /> 
+			FROM order_state
+    </select>
+    
+    <select id="getOrderStatePageList" resultMap="orderStateMap" parameterType="com.dianba.userdomain.order.entity.OrderState">
+    	SELECT 
+			<include refid="Base_Column_List" /> 
+			FROM order_state
+			<include refid="Example_Where_Clause" />
+    </select>
+    
+    <select id="getOrderStateByPrimaryKey" parameterType="Long" resultMap="orderStateMap">
+    	SELECT 
+			<include refid="Base_Column_List" /> 
+			FROM order_state WHERE id =#{id}
+    </select>
+    
+    <insert id="createOrderState" parameterType="com.dianba.userdomain.order.entity.OrderState">
+        <selectKey resultType="Long"  order="AFTER" keyProperty="id" >
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+		INSERT INTO order_state(
+			order_id,
+			deal_time,
+			state,
+			detail
+		)VALUES(
+			#{orderId},
+			#{dealTime},
+			#{state},
+			#{detail}
+		)
+    </insert>
+    
+    <update id="updateOrderState" parameterType="com.dianba.userdomain.order.entity.OrderState">
+		UPDATE order_state SET
+			order_id = #{orderId},
+			deal_time = #{dealTime},
+			state = #{state},
+			detail = #{detail}
+		WHERE id = #{id}
+
+    </update>
+    
+    <update id="updateOrderStateSelective" parameterType="com.dianba.userdomain.order.entity.OrderState">
+		UPDATE order_state
+		<set>
+			<if test="orderId != null" >
+			order_id = #{orderId},
+			</if>
+			<if test="dealTime != null" >
+			deal_time = #{dealTime},
+			</if>
+			<if test="state != null" >
+			state = #{state},
+			</if>
+			<if test="detail != null" >
+			detail = #{detail}
+			</if>
+		</set>
+		WHERE id = #{id}
+
+    </update>
+    
+    <delete id="deleteOrderState" parameterType="Long">
+    	DELETE FROM  order_state WHERE id =#{id}
+    </delete>
+    
+    <select id="getOrderStateByOrderId" parameterType="Long" resultMap="orderStateVoMap">
+    	SELECT 
+			<include refid="Base_Column_List" /> 
+			FROM order_state WHERE order_id =#{id}
+    </select>
+</mapper>

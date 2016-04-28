@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+<mapper namespace="com.dianba.userdomain.sysdictionary.mapper.CommonVersionManagerMapper">
+    <resultMap type="com.dianba.userdomain.sysdictionary.entity.VersionManager" id="versionManagerMap">
+		<result property="id" column="id"/>
+		<result property="currentVersion" column="current_version"/>
+		<result property="minVersion" column="min_version"/>
+		<result property="message" column="message"/>
+		<result property="downloadUrl" column="download_url"/>
+		<result property="time" column="time"/>
+		<result property="type" column="type"/>
+		<result property="forceupdate" column="forceupdate"/>
+
+    </resultMap>
+    
+    <sql id="Example_Where_Clause" >
+	  <trim prefix="where" prefixOverrides="and|or" >
+	    			<if test="id != null  and id !=''" >
+			and id = #{id}
+			</if>
+			<if test="currentVersion != null  and currentVersion !=''" >
+			and current_version = #{currentVersion}
+			</if>
+			<if test="minVersion != null  and minVersion !=''" >
+			and min_version = #{minVersion}
+			</if>
+			<if test="message != null  and message !=''" >
+			and message = #{message}
+			</if>
+			<if test="downloadUrl != null  and downloadUrl !=''" >
+			and download_url = #{downloadUrl}
+			</if>
+			<if test="time != null  and time !=''" >
+			and time = #{time}
+			</if>
+			<if test="type != null  and type !=''" >
+			and type = #{type}
+			</if>
+			<if test="forceupdate != null  and forceupdate !=''" >
+			and forceupdate = #{forceupdate}
+			</if>
+
+	  </trim>
+  	</sql>
+	<sql id="Base_Column_List" >
+	  id,current_version,min_version,message,download_url,time,type,forceupdate
+    </sql>
+    
+    <select id="getVersionManagerList" resultMap="versionManagerMap">
+    	SELECT 
+			<include refid="Base_Column_List" /> 
+			FROM version_manager
+    </select>
+    
+    <select id="getVersionManagerPageList" resultMap="versionManagerMap" parameterType="com.dianba.userdomain.sysdictionary.entity.VersionManager">
+    	SELECT 
+			<include refid="Base_Column_List" /> 
+			FROM version_manager
+			<include refid="Example_Where_Clause" />
+    </select>
+    
+    <select id="getVersionManagerByPrimaryKey" parameterType="BigDecimal" resultMap="versionManagerMap">
+    	SELECT 
+			<include refid="Base_Column_List" /> 
+			FROM version_manager WHERE id =#{id}
+    </select>
+    
+    <insert id="createVersionManager" parameterType="com.dianba.userdomain.sysdictionary.entity.VersionManager">
+        <selectKey resultType="BigDecimal"  order="AFTER" keyProperty="id" >
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+		INSERT INTO version_manager(
+			id,
+			current_version,
+			min_version,
+			message,
+			download_url,
+			time,
+			type,
+			forceupdate
+		)VALUES(
+			#{id},
+			#{currentVersion},
+			#{minVersion},
+			#{message},
+			#{downloadUrl},
+			#{time},
+			#{type},
+			#{forceupdate}
+		)
+    </insert>
+    
+    <update id="updateVersionManager" parameterType="com.dianba.userdomain.sysdictionary.entity.VersionManager">
+		UPDATE version_manager SET
+			current_version = #{currentVersion},
+			min_version = #{minVersion},
+			message = #{message},
+			download_url = #{downloadUrl},
+			time = #{time},
+			type = #{type},
+			forceupdate = #{forceupdate}
+		WHERE id = #{id}
+
+    </update>
+    
+    <update id="updateVersionManagerSelective" parameterType="com.dianba.userdomain.sysdictionary.entity.VersionManager">
+		UPDATE version_manager
+		<set>
+			<if test="currentVersion != null" >
+			current_version = #{currentVersion},
+			</if>
+			<if test="minVersion != null" >
+			min_version = #{minVersion},
+			</if>
+			<if test="message != null" >
+			message = #{message},
+			</if>
+			<if test="downloadUrl != null" >
+			download_url = #{downloadUrl},
+			</if>
+			<if test="time != null" >
+			time = #{time},
+			</if>
+			<if test="type != null" >
+			type = #{type},
+			</if>
+			<if test="forceupdate != null" >
+			forceupdate = #{forceupdate}
+			</if>
+		</set>
+		WHERE id = #{id}
+
+    </update>
+    
+    <delete id="deleteVersionManager" parameterType="BigDecimal">
+    	DELETE FROM  version_manager WHERE id =#{id}
+    </delete>
+</mapper>

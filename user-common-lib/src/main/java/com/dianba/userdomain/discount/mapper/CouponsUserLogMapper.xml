@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+<mapper namespace="com.dianba.userdomain.discount.mapper.CouponsUserLogMapper">
+    <resultMap type="com.dianba.userdomain.discount.entity.CouponsUserLog" id="couponsUserLogMap">
+		<result property="id" column="id"/>
+		<result property="userId" column="user_id"/>
+		<result property="orderId" column="order_id"/>
+		<result property="couponsUserId" column="coupons_user_id"/>
+		<result property="useTime" column="use_time"/>
+		<result property="detail" column="detail"/>
+
+    </resultMap>
+    
+    <resultMap type="com.dianba.web.vo.CouponsUserLogVo" id="couponsUserLogVoMap">
+   		<result property="userId" column="user_id"/>
+   		<result property="detail" column="detail"/>
+        <association property="couponsUser" column="coupons_user_id" javaType="com.dianba.userdomain.discount.entity.CouponsUser">
+	       	<result property="id" column="coupons_user_id"/>
+	    	<result property="couponsNum" column="coupons_num"/>
+	    	<result property="couponsLimitMoney" column="coupons_limit_money"/>
+	    	<result property="couponsMoney" column="coupons_money"/>
+	    	<result property="endTime" column="end_time"/>
+        </association>
+    </resultMap>
+    
+    <sql id="Example_Where_Clause" >
+	  <trim prefix="where" prefixOverrides="and|or" >
+	    			<if test="id != null  and id !=''" >
+			and id = #{id}
+			</if>
+			<if test="userId != null  and userId !=''" >
+			and user_id = #{userId}
+			</if>
+			<if test="orderId != null  and orderId !=''" >
+			and order_id = #{orderId}
+			</if>
+			<if test="couponsUserId != null  and couponsUserId !=''" >
+			and coupons_user_id = #{couponsUserId}
+			</if>
+			<if test="useTime != null  and useTime !=''" >
+			and use_time = #{useTime}
+			</if>
+			<if test="detail != null  and detail !=''" >
+			and detail = #{detail}
+			</if>
+
+	  </trim>
+  	</sql>
+	<sql id="Base_Column_List" >
+	  id,user_id,order_id,coupons_user_id,use_time,detail
+    </sql>
+    
+    <select id="getCouponsUserLogList" resultMap="couponsUserLogMap">
+    	SELECT 
+			<include refid="Base_Column_List" /> 
+			FROM 0085_coupons_user_log
+    </select>
+    
+    <select id="getCouponsUserLogPageList" resultMap="couponsUserLogMap" parameterType="com.dianba.userdomain.discount.entity.CouponsUserLog">
+    	SELECT 
+			<include refid="Base_Column_List" /> 
+			FROM 0085_coupons_user_log
+			<include refid="Example_Where_Clause" />
+    </select>
+    
+    <select id="getCouponsUserLogByPrimaryKey" parameterType="Integer" resultMap="couponsUserLogMap">
+    	SELECT 
+			<include refid="Base_Column_List" /> 
+			FROM 0085_coupons_user_log WHERE id =#{id}
+    </select>
+    
+    <insert id="createCouponsUserLog" parameterType="com.dianba.userdomain.discount.entity.CouponsUserLog">
+        <selectKey resultType="Integer"  order="AFTER" keyProperty="id" >
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+		INSERT INTO 0085_coupons_user_log(
+			user_id,
+			order_id,
+			coupons_user_id,
+			use_time,
+			detail
+		)VALUES(
+			#{userId},
+			#{orderId},
+			#{couponsUserId},
+			#{useTime},
+			#{detail}
+		)
+    </insert>
+    
+    <update id="updateCouponsUserLog" parameterType="com.dianba.userdomain.discount.entity.CouponsUserLog">
+		UPDATE 0085_coupons_user_log SET
+			user_id = #{userId},
+			order_id = #{orderId},
+			coupons_user_id = #{couponsUserId},
+			use_time = #{useTime},
+			detail = #{detail}
+		WHERE id = #{id}
+
+    </update>
+    
+    <update id="updateCouponsUserLogSelective" parameterType="com.dianba.userdomain.discount.entity.CouponsUserLog">
+		UPDATE 0085_coupons_user_log
+		<set>
+			<if test="userId != null" >
+			user_id = #{userId},
+			</if>
+			<if test="orderId != null" >
+			order_id = #{orderId},
+			</if>
+			<if test="couponsUserId != null" >
+			coupons_user_id = #{couponsUserId},
+			</if>
+			<if test="useTime != null" >
+			use_time = #{useTime},
+			</if>
+			<if test="detail != null" >
+			detail = #{detail}
+			</if>
+		</set>
+		WHERE id = #{id}
+
+    </update>
+    
+    <delete id="deleteCouponsUserLog" parameterType="Integer">
+    	DELETE FROM  0085_coupons_user_log WHERE id =#{id}
+    </delete>
+    <select id="searchCouponsUserLogVos" resultMap="couponsUserLogVoMap" parameterType="com.dianba.userdomain.discount.entity.CouponsUserLog">
+    	SELECT cou_log.*,cou_user.id,cou_user.coupons_num,cou_user.coupons_money,cou_user.coupons_limit_money,cou_user.end_time
+    	from 
+    	 (SELECT user_id,coupons_user_id,detail from 0085_coupons_user_log  where user_id=#{userId}) cou_log,
+    	 0085_coupons_user cou_user
+    	where cou_log.coupons_user_id = cou_user.id
+    </select>
+</mapper>

@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+<mapper namespace="com.dianba.userdomain.discount.mapper.CommonTomPlatformDiscountMapper">
+    <resultMap type="com.dianba.userdomain.discount.entity.TomPlatformDiscount" id="tomPlatformDiscountMap">
+		<result property="id" column="id"/>
+		<result property="merchantId" column="merchant_id"/>
+		<result property="tsmGradeId" column="tsm_grade_id"/>
+		<result property="discountType" column="discount_type"/>
+		<result property="discountValue" column="discount_value"/>
+		<result property="createTime" column="create_time"/>
+		<result property="updateTime" column="update_time"/>
+		<result property="userId" column="user_id"/>
+
+    </resultMap>
+    
+    <sql id="Example_Where_Clause" >
+	  <trim prefix="where" prefixOverrides="and|or" >
+	    			<if test="id != null  and id !=''" >
+			and id = #{id}
+			</if>
+			<if test="merchantId != null  and merchantId !=''" >
+			and merchant_id = #{merchantId}
+			</if>
+			<if test="tsmGradeId != null  and tsmGradeId !=''" >
+			and tsm_grade_id = #{tsmGradeId}
+			</if>
+			<if test="discountType != null  and discountType !=''" >
+			and discount_type = #{discountType}
+			</if>
+			<if test="discountValue != null  and discountValue !=''" >
+			and discount_value = #{discountValue}
+			</if>
+			<if test="createTime != null  and createTime !=''" >
+			and create_time = #{createTime}
+			</if>
+			<if test="updateTime != null  and updateTime !=''" >
+			and update_time = #{updateTime}
+			</if>
+			<if test="userId != null  and userId !=''" >
+			and user_id = #{userId}
+			</if>
+
+	  </trim>
+  	</sql>
+	<sql id="Base_Column_List" >
+	  id,merchant_id,tsm_grade_id,discount_type,discount_value,create_time,update_time,user_id
+    </sql>
+    
+    <select id="getTomPlatformDiscountList" resultMap="tomPlatformDiscountMap">
+    	SELECT 
+			<include refid="Base_Column_List" /> 
+			FROM tom_platform_discount
+    </select>
+    
+    <select id="getTomPlatformDiscountPageList" resultMap="tomPlatformDiscountMap" parameterType="com.dianba.userdomain.discount.entity.TomPlatformDiscount">
+    	SELECT 
+			<include refid="Base_Column_List" /> 
+			FROM tom_platform_discount
+			<include refid="Example_Where_Clause" />
+    </select>
+    
+    <select id="getTomPlatformDiscountByPrimaryKey" parameterType="Integer" resultMap="tomPlatformDiscountMap">
+    	SELECT 
+			<include refid="Base_Column_List" /> 
+			FROM tom_platform_discount WHERE id =#{id}
+    </select>
+    
+    <insert id="createTomPlatformDiscount" parameterType="com.dianba.userdomain.discount.entity.TomPlatformDiscount">
+        <selectKey resultType="Integer"  order="AFTER" keyProperty="id" >
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+		INSERT INTO tom_platform_discount(
+			id,
+			merchant_id,
+			tsm_grade_id,
+			discount_type,
+			discount_value,
+			create_time,
+			update_time,
+			user_id
+		)VALUES(
+			#{id},
+			#{merchantId},
+			#{tsmGradeId},
+			#{discountType},
+			#{discountValue},
+			now(),
+			now(),
+			#{userId}
+		)
+    </insert>
+    
+    <update id="updateTomPlatformDiscount" parameterType="com.dianba.userdomain.discount.entity.TomPlatformDiscount">
+		UPDATE tom_platform_discount SET
+			merchant_id = #{merchantId},
+			tsm_grade_id = #{tsmGradeId},
+			discount_type = #{discountType},
+			discount_value = #{discountValue},
+			update_time = now(),
+			user_id = #{userId}
+		WHERE id = #{id}
+
+    </update>
+    
+    <update id="updateTomPlatformDiscountSelective" parameterType="com.dianba.userdomain.discount.entity.TomPlatformDiscount">
+		UPDATE tom_platform_discount
+		<set>
+			<if test="merchantId != null" >
+			merchant_id = #{merchantId},
+			</if>
+			<if test="tsmGradeId != null" >
+			tsm_grade_id = #{tsmGradeId},
+			</if>
+			<if test="discountType != null" >
+			discount_type = #{discountType},
+			</if>
+			<if test="discountValue != null" >
+			discount_value = #{discountValue},
+			</if>
+			<if test="updateTime != null" >
+			update_time = now(),
+			</if>
+			<if test="userId != null" >
+			user_id = #{userId}
+			</if>
+		</set>
+		WHERE id = #{id}
+
+    </update>
+    
+    <delete id="deleteTomPlatformDiscount" parameterType="Integer">
+    	DELETE FROM  tom_platform_discount WHERE id =#{id}
+    </delete>
+</mapper>

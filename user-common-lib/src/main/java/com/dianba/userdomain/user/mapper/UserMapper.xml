@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dianba.userdomain.user.mapper.CommonUserMapper">
+	<resultMap type="com.dianba.userdomain.user.entity.User" id="userMap">
+		<result property="id" column="id" />
+		<result property="username" column="username" />
+		<result property="nickname" column="nickname" />
+		<result property="password" column="password" />
+		<result property="gender" column="gender" />
+		<result property="mobile" column="mobile" />
+		<result property="photourl" column="photoUrl" />
+		<result property="money" column="money" />
+		<result property="score" column="score" />
+		<result property="userType" column="user_type" />
+		<result property="sns" column="sns" />
+		<result property="ip" column="ip" />
+		<result property="loginTime" column="login_time" />
+		<result property="createTime" column="create_time" />
+		<result property="payPassword" column="pay_password" />
+		<result property="openid" column="openid" />
+		<result property="unionid" column="unionid" />
+		<result property="unionidRemark" column="unionid_remark" />
+		<result property="mobileRemark" column="mobile_remark" />
+		<result property="openidRemark" column="openid_remark" />
+		<result property="isDelete" column="is_delete" />
+		<result property="firstOrderTime" column="first_order_time" />
+	</resultMap> 
+
+	<sql id="Example_Where_Clause">
+		<trim prefix="where" prefixOverrides="and|or">
+			<if test="id != null  and id !=''">
+				and id = #{id}
+			</if>
+			<if test="username != null  and username !=''">
+				and username = #{username}
+			</if>
+			<if test="nickname != null  and nickname !=''">
+				and nickname = #{nickname}
+			</if>
+			<if test="password != null  and password !=''">
+				and password = #{password}
+			</if>
+			<if test="gender != null  and gender !=''">
+				and gender = #{gender}
+			</if>
+			<if test="mobile != null  and mobile !=''">
+				and mobile = #{mobile}
+			</if>
+			<if test="photourl != null  and photourl !=''">
+				and photoUrl = #{photourl}
+			</if>
+			<if test="money != null  and money !=''">
+				and money = #{money}
+			</if>
+			<if test="score != null  and score !=''">
+				and score = #{score}
+			</if>
+			<if test="userType != null  and userType !=''">
+				and user_type = #{userType}
+			</if>
+			<if test="sns != null  and sns !=''">
+				and sns = #{sns}
+			</if>
+			<if test="ip != null  and ip !=''">
+				and ip = #{ip}
+			</if>
+			<if test="loginTime != null  and loginTime !=''">
+				and login_time = #{loginTime}
+			</if>
+			<if test="createTime != null  and createTime !=''">
+				and create_time = #{createTime}
+			</if>
+			<if test="payPassword != null  and payPassword !=''">
+				and pay_password = #{payPassword}
+			</if>
+			<if test="openid != null  and openid !=''">
+				and openid = #{openid}
+			</if>
+			<if test="unionid != null  and unionid !=''">
+				and unionid = #{unionid}
+			</if>
+			<if test="unionidRemark != null  and unionidRemark !=''">
+				and unionid_remark = #{unionidRemark}
+			</if>
+			<if test="mobileRemark != null  and mobileRemark !=''">
+				and mobile_remark = #{mobileRemark}
+			</if>
+			<if test="openidRemark != null  and openidRemark !=''">
+				and openid_remark = #{openidRemark}
+			</if>
+			<if test="isDelete != null  and isDelete !=''">
+				and is_delete = #{isDelete}
+			</if>
+			<if test="firstOrderTime != null  and firstOrderTime !=''">
+				and first_order_time = #{firstOrderTime}
+			</if>
+		</trim>
+	</sql>
+
+	<sql id="Base_Column_List">
+		id,username,nickname,password,gender,mobile,photoUrl,money,score,user_type,sns,ip,login_time,create_time,pay_password,openid,unionid,unionid_remark,mobile_remark,openid_remark,is_delete,first_order_time
+	</sql>
+
+	<select id="getUserList" resultMap="userMap">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM user
+	</select>
+
+	<select id="getUserPageList" resultMap="userMap"
+		parameterType="com.dianba.userdomain.user.entity.User">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM user
+		<include refid="Example_Where_Clause" />
+	</select>
+
+	<select id="getUserByPrimaryKey" parameterType="Long" resultMap="userMap">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM user WHERE id =#{id}
+	</select>
+	
+	<select id="hasUserById" parameterType="Long" resultType="Integer">
+	    select count(0) from user WHERE id =#{id}
+	</select> 
+	
+	<update id="updateUserScore" parameterType="java.util.Map">
+		UPDATE user SET score=(score-#{score}) where id=#{id}
+	</update>
+	
+	<insert id="createUser" parameterType="com.dianba.userdomain.user.entity.User">
+		<selectKey resultType="Long" order="AFTER" keyProperty="id">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+		INSERT INTO user(
+		id,
+		username,
+		nickname,
+		password,
+		gender,
+		mobile,
+		photoUrl,
+		money,
+		score,
+		user_type,
+		sns,
+		ip,
+		login_time,
+		create_time,
+		pay_password,
+		openid,
+		unionid,
+		unionid_remark,
+		mobile_remark,
+		openid_remark,
+		is_delete,
+		first_order_time
+		)VALUES(
+		#{id},
+		#{username},
+		#{nickname},
+		#{password},
+		#{gender},
+		#{mobile},
+		#{photourl},
+		#{money},
+		#{score},
+		#{userType},
+		#{sns},
+		#{ip},
+		#{loginTime},
+		#{createTime},
+		#{payPassword},
+		#{openid},
+		#{unionid},
+		#{unionidRemark},
+		#{mobileRemark},
+		#{openidRemark},
+		#{isDelete},
+		#{firstOrderTime}
+		)
+	</insert>
+
+	<update id="updateUser" parameterType="com.dianba.userdomain.user.entity.User">
+		UPDATE user SET
+		username =
+		#{username},
+		nickname = #{nickname},
+		password = #{password},
+		gender = #{gender},
+		mobile = #{mobile},
+		photoUrl = #{photourl},
+		money = #{money},
+		score = #{score},
+		user_type = #{userType},
+		sns =
+		#{sns},
+		ip = #{ip},
+		login_time = #{loginTime},
+		pay_password =
+		#{payPassword},
+		openid = #{openid},
+		unionid = #{unionid},
+		unionid_remark
+		= #{unionidRemark},
+		mobile_remark = #{mobileRemark},
+		openid_remark =
+		#{openidRemark},
+		is_delete = #{isDelete},
+		first_order_time =
+		#{firstOrderTime}
+		WHERE id = #{id}
+	</update>
+
+	<update id="updateUserSelective" parameterType="com.dianba.userdomain.user.entity.User">
+		UPDATE user
+		<set>
+			<if test="username != null">
+				username = #{username},
+			</if>
+			<if test="nickname != null">
+				nickname = #{nickname},
+			</if>
+			<if test="password != null">
+				password = #{password},
+			</if>
+			<if test="gender != null">
+				gender = #{gender},
+			</if>
+			<if test="mobile != null">
+				mobile = #{mobile},
+			</if>
+			<if test="photourl != null">
+				photoUrl = #{photourl},
+			</if>
+			<if test="money != null">
+				money = #{money},
+			</if>
+			<if test="score != null">
+				score = #{score},
+			</if>
+			<if test="userType != null">
+				user_type = #{userType},
+			</if>
+			<if test="sns != null">
+				sns = #{sns},
+			</if>
+			<if test="ip != null">
+				ip = #{ip},
+			</if>
+			<if test="loginTime != null">
+				login_time = #{loginTime},
+			</if>
+			<if test="payPassword != null">
+				pay_password = #{payPassword},
+			</if>
+			<if test="openid != null">
+				openid = #{openid},
+			</if>
+			<if test="unionid != null">
+				unionid = #{unionid},
+			</if>
+			<if test="unionidRemark != null">
+				unionid_remark = #{unionidRemark},
+			</if>
+			<if test="mobileRemark != null">
+				mobile_remark = #{mobileRemark},
+			</if>
+			<if test="openidRemark != null">
+				openid_remark = #{openidRemark},
+			</if>
+			<if test="isDelete != null">
+				is_delete = #{isDelete},
+			</if>
+			<if test="firstOrderTime != null">
+				first_order_time = #{firstOrderTime}
+			</if>
+		</set>
+		WHERE id = #{id} 
+	</update>
+
+	<delete id="deleteUser" parameterType="Long">
+		DELETE FROM user WHERE id
+		=#{id}
+	</delete>
+</mapper>

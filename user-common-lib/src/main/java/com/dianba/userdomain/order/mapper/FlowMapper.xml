@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+<mapper namespace="com.dianba.userdomain.order.mapper.CommonFlowMapper">
+    <resultMap type="com.dianba.userdomain.order.entity.Flow" id="flowMap">
+		<result property="id" column="id"/>
+		<result property="merchantId" column="merchant_id"/>
+		<result property="userId" column="user_id"/>
+		<result property="detailId" column="detail_id"/>
+		<result property="detail" column="detail"/>
+		<result property="money" column="money"/>
+		<result property="action" column="action"/>
+		<result property="createTime" column="create_time"/>
+		<result property="type" column="type"/>
+		<result property="preMoney" column="pre_money"/>
+		<result property="postMoney" column="post_money"/>
+
+    </resultMap>
+    
+    <sql id="Example_Where_Clause" >
+	  <trim prefix="where" prefixOverrides="and|or" >
+	    			<if test="id != null  and id !=''" >
+			and id = #{id}
+			</if>
+			<if test="merchantId != null  and merchantId !=''" >
+			and merchant_id = #{merchantId}
+			</if>
+			<if test="userId != null  and userId !=''" >
+			and user_id = #{userId}
+			</if>
+			<if test="detailId != null  and detailId !=''" >
+			and detail_id = #{detailId}
+			</if>
+			<if test="detail != null  and detail !=''" >
+			and detail = #{detail}
+			</if>
+			<if test="money != null  and money !=''" >
+			and money = #{money}
+			</if>
+			<if test="action != null  and action !=''" >
+			and action = #{action}
+			</if>
+			<if test="createTime != null  and createTime !=''" >
+			and create_time = #{createTime}
+			</if>
+			<if test="type != null  and type !=''" >
+			and type = #{type}
+			</if>
+			<if test="preMoney != null  and preMoney !=''" >
+			and pre_money = #{preMoney}
+			</if>
+			<if test="postMoney != null  and postMoney !=''" >
+			and post_money = #{postMoney}
+			</if>
+
+	  </trim>
+  	</sql>
+	<sql id="Base_Column_List" >
+	  id,merchant_id,user_id,detail_id,detail,money,action,create_time,type,pre_money,post_money
+    </sql>
+    
+    <select id="getFlowList" resultMap="flowMap">
+    	SELECT 
+			<include refid="Base_Column_List" /> 
+			FROM flow
+    </select>
+    
+    <select id="getFlowPageList" resultMap="flowMap" parameterType="com.dianba.userdomain.order.entity.Flow">
+    	SELECT 
+			<include refid="Base_Column_List" /> 
+			FROM flow
+			<include refid="Example_Where_Clause" />
+    </select>
+    
+    <select id="getFlowPageListByUserId" resultMap="flowMap" parameterType="Long" >
+    	SELECT 
+			<include refid="Base_Column_List" /> 
+			FROM flow
+			where user_id = #{userId} and money != 0
+    </select>
+    
+    <select id="getFlowByPrimaryKey" parameterType="Long" resultMap="flowMap">
+    	SELECT 
+			<include refid="Base_Column_List" /> 
+			FROM flow WHERE id =#{id}
+    </select>
+    
+    <insert id="createFlow" parameterType="com.dianba.userdomain.order.entity.Flow">
+        <selectKey resultType="Long"  order="AFTER" keyProperty="id" >
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+		INSERT INTO flow(
+			merchant_id,
+			user_id,
+			detail_id,
+			detail,
+			money,
+			action,
+			create_time,
+			type,
+			pre_money,
+			post_money
+		)VALUES(
+		 	#{merchantId},
+			#{userId},
+			#{detailId},
+			#{detail},
+			#{money},
+			#{action},
+			#{createTime},
+			#{type},
+			#{preMoney},
+			#{postMoney}
+		)
+    </insert>
+    
+    <update id="updateFlow" parameterType="com.dianba.userdomain.order.entity.Flow">
+		UPDATE flow SET
+			merchant_id = #{merchantId},
+			user_id = #{userId},
+			detail_id = #{detailId},
+			detail = #{detail},
+			money = #{money},
+			action = #{action},
+			type = #{type},
+			pre_money = #{preMoney},
+			post_money = #{postMoney}
+		WHERE id = #{id}
+
+    </update>
+    
+    <update id="updateFlowSelective" parameterType="com.dianba.userdomain.order.entity.Flow">
+		UPDATE flow
+		<set>
+			<if test="merchantId != null" >
+			merchant_id = #{merchantId},
+			</if>
+			<if test="userId != null" >
+			user_id = #{userId},
+			</if>
+			<if test="detailId != null" >
+			detail_id = #{detailId},
+			</if>
+			<if test="detail != null" >
+			detail = #{detail},
+			</if>
+			<if test="money != null" >
+			money = #{money},
+			</if>
+			<if test="action != null" >
+			action = #{action},
+			</if>
+			<if test="type != null" >
+			type = #{type},
+			</if>
+			<if test="preMoney != null" >
+			pre_money = #{preMoney},
+			</if>
+			<if test="postMoney != null" >
+			post_money = #{postMoney}
+			</if>
+		</set>
+		WHERE id = #{id}
+
+    </update>
+    
+    <delete id="deleteFlow" parameterType="Long">
+    	DELETE FROM  flow WHERE id =#{id}
+    </delete>
+</mapper>

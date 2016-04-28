@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dianba.userdomain.order.mapper.CommonTpmScanpaySetRatioMapper">
+	<resultMap id="BaseResultMap" type="com.dianba.userdomain.order.entity.TpmScanpaySetRatio">
+		<!--
+			WARNING - @mbggenerated
+		-->
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="scanpay_id" property="scanpayId" jdbcType="INTEGER" />
+		<result column="proportion" property="proportion" jdbcType="INTEGER" />
+		<result column="money_min" property="moneyMin" jdbcType="INTEGER" />
+		<result column="money_max" property="moneyMax" jdbcType="INTEGER" />
+	</resultMap>
+
+	<select id="getMerchantProportion" parameterType="Integer" resultMap="BaseResultMap">
+		SELECT
+		tssr.scanpay_id,tssr.proportion,tssr.money_min,tssr.money_max
+		FROM
+		`tpm_scanpay_set_ratio` AS tssr
+		LEFT JOIN tpm_scanpay_set_merchant AS tssm ON tssr.scanpay_id = tssm.scanpay_id
+		LEFT JOIN tpm_scanpay_set AS tss ON tss.id =
+		tssm.scanpay_id
+		WHERE tssm.merchant_id = #{merchantId} AND tss.is_delete = '0' ORDER BY tssr.proportion DESC
+	</select>
+</mapper>

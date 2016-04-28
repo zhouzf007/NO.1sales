@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+<mapper namespace="com.dianba.userdomain.user.mapper.CommonTsmGradeMapper">
+    <resultMap type="com.dianba.userdomain.user.entity.TsmGrade" id="tsmGradeMap">
+		<result property="id" column="id"/>
+		<result property="grade" column="grade"/>
+		<result property="gradeName" column="grade_name"/>
+		<result property="minRecharge" column="min_recharge"/>
+		<result property="totalRecharge" column="total_recharge"/>
+		<result property="discount" column="discount"/>
+		<result property="maxDiscount" column="max_discount"/>
+		<result property="icon" column="icon"/>
+		<result property="vipIcon" column="vip_icon"/>
+    </resultMap>
+    
+    <sql id="Example_Where_Clause" >
+	  <trim prefix="where" prefixOverrides="and|or" >
+	    			<if test="id != null  and id !=''" >
+			and id = #{id}
+			</if>
+			<if test="grade != null  and grade !=''" >
+			and grade = #{grade}
+			</if>
+			<if test="gradeName != null  and gradeName !=''" >
+			and grade_name = #{gradeName}
+			</if>
+			<if test="minRecharge != null  and minRecharge !=''" >
+			and min_recharge = #{minRecharge}
+			</if>
+			<if test="totalRecharge != null  and totalRecharge !=''" >
+			and total_recharge = #{totalRecharge}
+			</if>
+			<if test="discount != null  and discount !=''" >
+			and discount = #{discount}
+			</if>
+			<if test="maxDiscount != null  and maxDiscount !=''" >
+			and max_discount = #{maxDiscount}
+			</if>
+			<if test="icon != null  and icon !=''" >
+			and icon = #{icon}
+			</if>
+			<if test="vipIcon != null  and vipIcon !=''" >
+			and vip_icon = #{vipIcon}
+			</if>
+
+	  </trim>
+  	</sql>
+	<sql id="Base_Column_List" >
+	  id,grade,grade_name,min_recharge,total_recharge,discount,max_discount,icon,vip_icon
+    </sql>
+    
+    <select id="getTsmGradeList" resultMap="tsmGradeMap">
+    	SELECT 
+			<include refid="Base_Column_List" /> 
+			FROM tsm_grade
+    </select>
+    
+    <select id="getTsmGradePageList" resultMap="tsmGradeMap" parameterType="com.dianba.userdomain.user.entity.TsmGrade">
+    	SELECT 
+			<include refid="Base_Column_List" /> 
+			FROM tsm_grade
+			<include refid="Example_Where_Clause" />
+    </select>
+    
+    <select id="getTsmGradeByPrimaryKey" parameterType="Long" resultMap="tsmGradeMap">
+    	SELECT 
+			<include refid="Base_Column_List" /> 
+			FROM tsm_grade WHERE id =#{id}
+    </select>
+    <select id="getTsmGradeByGrade" parameterType="Long" resultMap="tsmGradeMap">
+    	SELECT 
+			<include refid="Base_Column_List" /> 
+			FROM tsm_grade WHERE grade =#{grade}
+    </select>
+    <insert id="createTsmGrade" parameterType="com.dianba.userdomain.user.entity.TsmGrade">
+        <selectKey resultType="Long"  order="AFTER" keyProperty="id" >
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+		INSERT INTO tsm_grade(
+			id,
+			grade,
+			grade_name,
+			min_recharge,
+			total_recharge,
+			discount,
+			max_discount,
+			icon,
+			vip_icon
+		)VALUES(
+			#{id},
+			#{grade},
+			#{gradeName},
+			#{minRecharge},
+			#{totalRecharge},
+			#{discount},
+			#{maxDiscount},
+			#{icon},
+			#{vipIcon}
+		)
+    </insert>
+    
+    <update id="updateTsmGrade" parameterType="com.dianba.userdomain.user.entity.TsmGrade">
+		UPDATE tsm_grade SET
+			grade = #{grade},
+			grade_name = #{gradeName},
+			min_recharge = #{minRecharge},
+			total_recharge = #{totalRecharge},
+			discount = #{discount},
+			max_discount = #{maxDiscount},
+			icon = #{icon},
+			vip_icon=#{vipIcon}
+		WHERE id = #{id}
+
+    </update>
+    
+    <update id="updateTsmGradeSelective" parameterType="com.dianba.userdomain.user.entity.TsmGrade">
+		UPDATE tsm_grade
+		<set>
+			<if test="grade != null" >
+			grade = #{grade},
+			</if>
+			<if test="gradeName != null" >
+			grade_name = #{gradeName},
+			</if>
+			<if test="minRecharge != null" >
+			min_recharge = #{minRecharge},
+			</if>
+			<if test="totalRecharge != null" >
+			total_recharge = #{totalRecharge},
+			</if>
+			<if test="discount != null" >
+			discount = #{discount},
+			</if>
+			<if test="maxDiscount != null" >
+			max_discount = #{maxDiscount},
+			</if>
+			<if test="icon != null" >
+			icon = #{icon},
+			</if>
+			<if test="vipIcon != null" >
+			vip_icon = #{vipIcon}
+			</if>
+		</set>
+		WHERE id = #{id}
+
+    </update>
+    
+    <delete id="deleteTsmGrade" parameterType="Long">
+    	DELETE FROM  tsm_grade WHERE id =#{id}
+    </delete>
+</mapper>
